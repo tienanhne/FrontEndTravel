@@ -1,0 +1,17 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true, // Tùy chọn này có thể giúp bỏ qua kiểm tra các kiểu của thư viện bên ngoài
+    "forceConsistentCasingInFileNames": true
+  }
+}

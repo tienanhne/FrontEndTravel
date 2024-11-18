@@ -1,0 +1,222 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .active {
+    @apply text-primary;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+input,
+select,
+textarea {
+  background-color: transparent;
+  outline: none;
+}
+button {
+  cursor: pointer;
+  background-color: transparent;
+  outline: none;
+  border: 0;
+}
+body {
+  min-height: 100vh;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1;
+}
+body::-webkit-scrollbar {
+  width: 15px;
+  background-color: #f3f3f3;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #4fcece;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 90.1vh;
+  z-index: 0;
+}
+.leaflet-control-container {
+  display: none;
+}
+.toggle-checkbox:checked {
+  right: 0;
+}
+.toggle-checkbox:checked + .toggle-label {
+  background-color: rgb(2 135 168 / 1);
+}
+
+.toggle-label {
+  width: 3rem;
+  transition: background-color 0.2s ease-in;
+}
+
+.ql-container.ql-snow {
+  min-height: inherit;
+}
+
+/* styles.css or equivalent file */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pagination a,
+.pagination button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.pagination a:hover,
+.pagination button:hover {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+}
+
+.pagination .disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination .previous,
+.pagination .next {
+  font-weight: bold;
+}
+
+@keyframes fly {
+  0% {
+    left: -20px;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.animate-fly {
+  animation: fly 3s linear infinite;
+}
+
+/* Tab buttons */
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px;
+  background: #ddd;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+.tab.active {
+  background: #333;
+  color: #fff;
+}
+
+/* Tab content animation */
+.tab-content {
+  position: relative;
+}
+
+.tab-pane {
+  opacity: 0;
+  transform: translateX(50px);
+  animation: fadeInSlide 0.5s forwards;
+}
+
+/* Keyframes for slide and fade animation */
+@keyframes fadeInSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.review-carousel .slick-slide {
+  margin: 0 10px; /* Adjust the margin between slides */
+}
+
+.review-carousel .slick-list {
+  padding: 0 20px; /* Optional: Add padding to the slider container */
+}
+
+.review-carousel .slick-prev,
+.review-carousel .slick-next {
+  z-index: 1; /* Ensure navigation arrows are above the content */
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.75);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+}
+
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
