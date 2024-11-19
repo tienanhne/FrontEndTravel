@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import { setAPIResultData } from "./destinationsSlice";
+import { useDispatch } from "react-redux";
 
 interface PlaceSearchProps {
   lat: number;
@@ -16,10 +18,11 @@ interface PlaceSearchProps {
 const PlaceSearchComponent: React.FC<PlaceSearchProps> = ({ lat, lng, id }) => {
   const [type, setType] = useState("");
   const [radius, setRadius] = useState(10);
-  const [places, setPlaces] = useState([]); 
+  const [places, setPlaces] = useState([]);
   const [selectedDayId, setSelectedDayId] = useState<number | null>(null);
   const idTrip = useParams();
   const results = useSelector((state: RootState) => state.destinations.results);
+  const dispatch = useDispatch();
 
   const handleSearch = async () => {
     const token = localStorage.getItem("accessToken");
@@ -40,23 +43,40 @@ const PlaceSearchComponent: React.FC<PlaceSearchProps> = ({ lat, lng, id }) => {
         }
       );
       setPlaces(response.data.result);
-      console.log(idTrip);
-
     } catch (error) {
       console.error("Error fetching locations:", error);
+    }
+  };
+  const fetchData = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    try {
+      const response = await axios.get(
+        `http://localhost:8888/api/v1/trip/itineraries/${idTrip.id}/trip`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      dispatch(setAPIResultData(response.data.result));
+      console.log("hand ", response.data.result);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast.error("Không thể lấy dữ liệu lịch trình!");
     }
   };
 
   const handleReplacePlace = async (placeId: number) => {
     const token = localStorage.getItem("accessToken");
-      if (!token || !id) {
+    if (!token || !id) {
       console.error("Không có token hoặc id địa điểm.");
       return;
     }
-  
+
     try {
-      const response = await axios.put(
-        `http://localhost:8888/api/v1/trip/itineraries/destination/${id}`,  
+      await axios.put(
+        `http://localhost:8888/api/v1/trip/itineraries/destination/${id}`,
         {
           locationId: placeId,
         },
@@ -66,15 +86,13 @@ const PlaceSearchComponent: React.FC<PlaceSearchProps> = ({ lat, lng, id }) => {
           },
         }
       );
-  
-      toast.success("Thay thế địa điểm thành công")
+
+      toast.success("Thay thế địa điểm thành công");
+      fetchData();
     } catch (error) {
       toast.error("Lỗi khi thay thế địa điểm");
     }
   };
-  
-
-
 
   return (
     <div className="p-3 max-w-md w-[290px] mx-auto max-h-96 overflow-y-auto no-scrollbar mt-8">

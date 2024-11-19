@@ -213,13 +213,7 @@ const Hero = () => {
     }
   };
 
-  // const handleCheckboxChange = (type: string) => {
-  //   if (selectedTypes.includes(type)) {
-  //     setSelectedTypes(selectedTypes.filter((selected) => selected !== type));
-  //   } else {
-  //     setSelectedTypes([...selectedTypes, type]);
-  //   }
-  // };
+
 
   return (
     <div className="bg-black/20 h-full">
@@ -270,7 +264,7 @@ const Hero = () => {
               className="px-8 py-3 bg-gradient-to-r from-secondary to-primary text-white font-semibold rounded-lg shadow-lg hover:from-primary hover:to-secondary transition duration-300 min-w-[120px] flex items-center justify-center"
               disabled={isLoading}
             >
-              {!isLoading ? (
+              {isLoading ? (
                 <svg
                   className="animate-spin h-6 w-6 text-white mx-auto"
                   xmlns="http://www.w3.org/2000/svg"
