@@ -18,14 +18,12 @@ const SearchInput: React.FC<SearchInputProps> = ({
   const [query, setQuery] = useState(value || ""); 
   const { searchResults, error, debouncedFetchResults } = useDestinationSearch();
 
-  // Fetch search results based on the input query
   useEffect(() => {
     if (query.length > 2) {
       debouncedFetchResults(query);
     }
   }, [query, debouncedFetchResults]);
 
-  // Sync query with the value prop when the value prop changes
   useEffect(() => {
     setQuery(value);
   }, [value]);

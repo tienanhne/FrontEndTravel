@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
-import { setAPIResultData } from "./destinationsSlice";
+import { setAPIResultData, updateResult } from "./destinationsSlice";
 import { useDispatch } from "react-redux";
 
 interface PlaceSearchProps {
@@ -19,10 +19,12 @@ const PlaceSearchComponent: React.FC<PlaceSearchProps> = ({ lat, lng, id }) => {
   const [type, setType] = useState("");
   const [radius, setRadius] = useState(10);
   const [places, setPlaces] = useState([]);
-  const [selectedDayId, setSelectedDayId] = useState<number | null>(null);
+  const [selectedPlace, setSelectedPlace] = useState<any>(null);
+  const [showDays, setShowDays] = useState(false); // Track if day list is visible
   const idTrip = useParams();
   const results = useSelector((state: RootState) => state.destinations.results);
   const dispatch = useDispatch();
+  const daysListRef = useRef<HTMLDivElement | null>(null); 
 
   const handleSearch = async () => {
     const token = localStorage.getItem("accessToken");
@@ -94,6 +96,41 @@ const PlaceSearchComponent: React.FC<PlaceSearchProps> = ({ lat, lng, id }) => {
     }
   };
 
+  const handleAddPlaces = async (dayId: number) => {
+    if (!selectedPlace) return;
+    const { place_id } = selectedPlace;
+    const accessToken = localStorage.getItem("accessToken");
+    try {
+      const response = await axios.post(
+        `http://localhost:8888/api/v1/trip/itineraries/${dayId}`,
+        { locationId: place_id },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        dispatch(updateResult({ result: response.data.result }));
+        toast.success("Thêm địa điểm mới thành công!");
+      } else {
+        toast.error("Không thể thêm địa điểm mới!");
+      }
+    } catch (error) {
+      toast.error("Có lỗi trong quá trình thêm địa điểm!");
+    }
+    setShowDays(false);
+  };
+
+  const handleShowDays = (place: any) => {
+    setSelectedPlace(place);
+
+    setShowDays(true);
+    setTimeout(() => {
+      daysListRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
   return (
     <div className="p-3 max-w-md w-[290px] mx-auto max-h-96 overflow-y-auto no-scrollbar mt-8">
       <h2 className="text-2xl font-bold text-teal-600 mb-6 text-center">
@@ -156,7 +193,7 @@ const PlaceSearchComponent: React.FC<PlaceSearchProps> = ({ lat, lng, id }) => {
             places.map((place: any) => (
               <li
                 key={place.place_id}
-                className="w-full max-w-md p-4 overflow-hidden bg-gray-50 border border-gray-200 rounded-lg shadow hover:shadow-md transition-shadow mx-auto"
+                className="p-4 bg-gray-50 border border-gray-200 rounded-lg shadow hover:shadow-md transition-shadow mx-auto"
                 style={{ width: "275px" }}
               >
                 <div className="flex items-center gap-4">
@@ -168,17 +205,19 @@ const PlaceSearchComponent: React.FC<PlaceSearchProps> = ({ lat, lng, id }) => {
                     />
                   )}
                   <div className="flex-1">
-                    <h4 className="text-base font-bold text-gray-800 break-words">
+                    <h4 className="text-base font-bold text-gray-800">
                       {place.name}
                     </h4>
-                    <p className="text-sm text-gray-500 break-words">
+                    <p className="text-sm text-gray-500">
                       {place.display_name}
                     </p>
                   </div>
                 </div>
-
                 <div className="mt-4 flex justify-between">
-                  <button className="px-4 py-2 bg-teal-600 text-white text-sm rounded-lg hover:bg-teal-700">
+                  <button
+                    onClick={() => handleShowDays(place)}
+                    className="px-4 py-2 bg-teal-600 text-white text-sm rounded-lg hover:bg-teal-700"
+                  >
                     Chọn
                   </button>
                   <button
@@ -197,6 +236,35 @@ const PlaceSearchComponent: React.FC<PlaceSearchProps> = ({ lat, lng, id }) => {
           )}
         </ul>
       </div>
+      {showDays && (
+        <div ref={daysListRef} className="mt-6">
+          <h3 className="text-lg font-semibold text-teal-600 mb-2">
+            Chọn ngày để thêm địa điểm
+          </h3>
+          <ul className="space-y-3">
+            {results.map((day) => (
+              <li
+                key={day.id}
+                className="p-3 border rounded-lg shadow-sm cursor-pointer bg-gray-50 hover:bg-teal-100"
+                onClick={() => handleAddPlaces(day.id)}
+              >
+                <div>
+                  <strong>Ngày: </strong>
+                  {new Date(day.day).toLocaleDateString("vi-VN", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </div>
+                <div>
+                  <strong>Địa điểm:</strong> {day.destinations.length} điểm
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
