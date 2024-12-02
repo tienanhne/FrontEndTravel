@@ -24,9 +24,20 @@ const ReviewCarousel: React.FC<ReviewCarouselProps> = ({ locationId }) => {
 
   useEffect(() => {
     const fetchReviews = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+
+      if (!accessToken) {
+        return;
+      }
+
       try {
         const response = await axios.get(
-          `http://localhost:8888/api/v1/review/reviews/${locationId}/location?page=1&limit=12`
+          `http://localhost:8888/api/v1/review/reviews/${locationId}/location?page=1&limit=12`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
         );
         setReviews(response.data.result.data);
         setLoading(false);
@@ -60,16 +71,16 @@ const ReviewCarousel: React.FC<ReviewCarouselProps> = ({ locationId }) => {
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 3
-        }
+          slidesToShow: 3,
+        },
       },
       {
         breakpoint: 576,
         settings: {
-          slidesToShow: 1
-        }
-      }
-    ]
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   return (

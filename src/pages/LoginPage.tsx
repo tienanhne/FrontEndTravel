@@ -10,6 +10,7 @@ import ForgetPassword from "../components/Login/ForgetPassowrd";
 import { IoCloseOutline } from "react-icons/io5";
 import { LoginInput } from "../redux/type";
 import { login } from "../Api/auth";
+import { toast } from "react-toastify";
 
 const LoginPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -24,6 +25,7 @@ const LoginPage: React.FC = () => {
         localStorage.setItem("accessToken", data.accessToken);
         Cookies.set("refreshToken", data.refreshToken, { expires: 7 });
         const stringSession = sessionStorage.getItem("redirect");
+        toast.success("Đăng nhập thành công");
         if (stringSession) {
           window.location.href = stringSession;
         } else {

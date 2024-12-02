@@ -29,6 +29,10 @@ const HistoryTravel: React.FC = () => {
       try {
         const token = localStorage.getItem("accessToken");
 
+        if (!token) {
+          return;
+        }
+
         const config = {
           headers: {
             Authorization: `Bearer ${token}`,

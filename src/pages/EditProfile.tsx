@@ -8,6 +8,7 @@ import { RootState, State } from "../redux/store/store";
 import LoadingTriangle from "../components/Loading/LoadingTriangle";
 import { toast } from "react-toastify";
 import { TravelTypeSelection } from "../components/TypePage/TypeComponent";
+import { updateProfile, changePassword } from "../fetchApi/ApiLocal";
 
 interface UserProfile {
   id: string;
@@ -26,7 +27,7 @@ const uploadAvatar = async (formData: FormData) => {
       },
     }
   );
-  return response.data.result; 
+  return response.data.result;
 };
 
 const changeAvatar = async (id: number) => {
@@ -37,27 +38,6 @@ const changeAvatar = async (id: number) => {
   return response.data.result;
 };
 
-const updateProfile = async (
-  id: string,
-  data: { firstName: string; lastName: string }
-) => {
-  const response = await axios.put(
-    `http://localhost:8888/api/v1/profile/users/profiles/${id}`,
-    data
-  );
-  return response.data;
-};
-
-const changePassword = async (data: {
-  oldPassword: string;
-  newPassword: string;
-}) => {
-  const response = await axios.put(
-    "http://localhost:8888/api/v1/identity/auth/change-password",
-    data
-  );
-  return response.data;
-};
 
 const EditProfile: React.FC = () => {
   const { account } = useSelector((state: State) => state.user);
@@ -79,22 +59,21 @@ const EditProfile: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
     "editProfile" | "changePassword" | "selectType"
   >("editProfile");
-  const selectedTypes = useSelector((state: RootState) => state.travelType.selectedTypes);
-
+  const selectedTypes = useSelector(
+    (state: RootState) => state.travelType.selectedTypes
+  );
 
   const handleSubmit = async () => {
     try {
-        await axios.put("http://localhost:8888/api/v1/profile/users/hobbies", {
+      await axios.put("http://localhost:8888/api/v1/profile/users/hobbies", {
         hobbies: selectedTypes,
       });
-  
-      toast.success("Hobbies updated successfully!");
+      toast.success("Cập nhật sở thích thành công!");
     } catch (error) {
-      toast.error("Error updating hobbies");
+      toast.error("Cập nhật sở thích thất bại!");
       console.error("Error updating hobbies:", error);
     }
   };
-  
 
   useEffect(() => {
     if (!account) {

@@ -20,11 +20,10 @@ const About = lazy(() => import("./pages/About"));
 const NoPage = lazy(() => import("./pages/NoPage"));
 const MapPage = lazy(() => import("./pages/MapPage"));
 const HistoryPage = lazy(() => import("./pages/HistoryPage"));
-const RecentlyPage = lazy(() => import("./pages/RecentlyPage"));
 const WriteBlog = lazy(() => import("./components/Blogs/WriteBlog"));
 const ChatWidget = lazy(() => import("./components/Chats/ChatWidget"));
 const EditProfile = lazy(() => import("./pages/EditProfile"));
-const PlaceDetail = lazy(() => import("./components/Places/PlaceDetail"))
+const PlaceDetail = lazy(() => import("./components/Places/PlaceDetail"));
 function App() {
   useEffect(() => {
     axiosSetup(); // Chỉ chạy một lần khi ứng dụng được khởi động
@@ -60,7 +59,6 @@ function App() {
 
               <Route path="about" element={<About />} />
               <Route path="history-travel" element={<HistoryPage />} />
-              <Route path="recently-travel" element={<RecentlyPage />} />
               <Route path="WriteBlog" element={<WriteBlog />} />
               <Route path="*" element={<NoPage />} />
             </Route>

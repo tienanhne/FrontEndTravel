@@ -24,7 +24,7 @@ const PlaceSearchComponent: React.FC<PlaceSearchProps> = ({ lat, lng, id }) => {
   const idTrip = useParams();
   const results = useSelector((state: RootState) => state.destinations.results);
   const dispatch = useDispatch();
-  const daysListRef = useRef<HTMLDivElement | null>(null); 
+  const daysListRef = useRef<HTMLDivElement | null>(null);
 
   const handleSearch = async () => {
     const token = localStorage.getItem("accessToken");

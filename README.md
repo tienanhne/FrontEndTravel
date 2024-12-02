@@ -30,4 +30,5 @@ export default {
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
 Tech used: ReactTS, Redux, Taildwind, Lodash, React-joyride, React-slick, React-toastify, AOS animation
+
 Start Project: npm install --> npm run dev

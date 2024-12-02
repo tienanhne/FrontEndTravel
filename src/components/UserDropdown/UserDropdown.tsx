@@ -14,6 +14,11 @@ import Cookies from "js-cookie";
 export const fetchUserProfile = async (dispatch: Dispatch<UnknownAction>) => {
   const accessToken = localStorage.getItem("accessToken");
 
+  if (!accessToken) {
+    console.warn("No access token found, skipping API call.");
+    return;
+  }
+
   let headers = {
     Accept: "application/json",
     "Content-type": "application/json",
@@ -21,19 +26,21 @@ export const fetchUserProfile = async (dispatch: Dispatch<UnknownAction>) => {
     "Access-Control-Allow-Credentials": "true",
     Authorization: `Bearer ${accessToken}`,
   };
+
   try {
     const response = await axios.get(
       "http://localhost:8888/api/v1/profile/users/my-profile",
       { headers }
     );
 
-    if (response.status == 200) {
+    if (response.status === 200) {
       dispatch(setAccount({ account: response.data.result }));
     }
   } catch (error) {
     console.error("Failed to fetch user profile", error);
   }
 };
+
 
 const UserDropdown: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
