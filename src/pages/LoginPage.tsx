@@ -70,7 +70,7 @@ const LoginPage: React.FC = () => {
             <h2 className="text-2xl font-bold text-center">
               {isLogin ? "Đăng Nhập" : "Đăng Ký"}
             </h2>
-            <div className="relative w-full h-80 overflow-hidden">
+            <div className={`relative w-full ${isLogin ? `h-80` : `h-[400px]`} overflow-hidden`}>
               <div
                 className="absolute inset-0 w-full h-full flex transition-transform duration-500 transform"
                 style={{

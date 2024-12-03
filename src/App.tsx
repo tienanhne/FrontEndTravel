@@ -10,6 +10,7 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { axiosSetup } from "./Api/axiosSetup";
+import ResetPassword from "./pages/ResetPassword";
 
 const Home = lazy(() => import("./pages/Home"));
 const Layout = lazy(() => import("./pages/Layout"));
@@ -52,6 +53,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
+              <Route path="reset-password" element={<ResetPassword/>} />
               <Route path="blogs" element={<Blogs />} />
               <Route path="blogs/:id" element={<BlogsDetails />} />
               <Route path="best-places" element={<PlacesRoute />} />

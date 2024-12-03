@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import { LoginInput, LoginResponse } from "../redux/type";
 
-const headers = {
+export const headers = {
   Accept: "application/json",
   "Content-Type": "application/json",
 };
