@@ -16,9 +16,10 @@ const ShareModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
   tripId: number;
-}> = ({ isOpen, onClose, tripId }) => {
+  onDataUpdate: () => void;
+}> = ({ isOpen, onClose, tripId, onDataUpdate }) => {
   const [email, setEmail] = useState("");
-  const [permissions, setPermissions] = useState<string | null>(null); // Chỉ lưu 1 quyền
+  const [permissions, setPermissions] = useState<string | null>(null); 
 
   const handlePermissionChange = (permission: string) => {
     setPermissions((prev) => (prev === permission ? null : permission));
@@ -46,6 +47,7 @@ const ShareModal: React.FC<{
       );
       toast.success("Lịch trình đã được chia sẻ thành công!");
       onClose();
+      onDataUpdate();
     } catch (error) {
       toast.error("Đã xảy ra lỗi khi chia sẻ lịch trình. Vui lòng thử lại.");
     }
@@ -147,7 +149,7 @@ const ModalAvatar: React.FC<{
   onClose: () => void;
   tripId: number;
   permisstion: string;
-}> = ({ isOpen, onClose, tripId,permisstion }) => {
+}> = ({ isOpen, onClose, tripId, permisstion }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -164,8 +166,40 @@ const ModalAvatar: React.FC<{
     loadUsers();
   }, [isOpen, tripId]);
 
-  const handlePermissionChange = (email: string, newPermission: string) => {
-    console.log(`Cập nhật quyền cho ${email}: ${newPermission}`);
+  const handlePermissionChange = async (
+    email: string,
+    newPermission: string
+  ) => {
+    const data = {
+      email,
+      tripPermission: newPermission.toUpperCase(),
+    };
+    const accessToken = localStorage.getItem("accessToken");
+
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_BASE_API}/trip/trips/share/${tripId}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      toast.success(
+        `Quyền của ${email} đã được cập nhật thành ${newPermission}.`
+      );
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.email === email
+            ? { ...user, tripPermission: newPermission }
+            : user
+        )
+      );
+    } catch (error) {
+      toast.error(`Không thể cập nhật quyền cho ${email}. Vui lòng thử lại.`);
+    }
   };
 
   return (
@@ -197,9 +231,7 @@ const ModalAvatar: React.FC<{
                     handlePermissionChange(user.email, e.target.value)
                   }
                   className="border border-gray-300 dark:text-dark rounded-md p-2"
-                  disabled={
-                    permisstion.toLowerCase() !== "owner" 
-                  }
+                  disabled={permisstion.toLowerCase() !== "owner"}
                 >
                   <option value="read">Đọc</option>
                   <option value="edit">Chỉnh sửa</option>
@@ -245,13 +277,13 @@ const TravelCard: React.FC<TravelCardProps> = ({
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
 
+  const loadUsers = async () => {
+    const fetchedUsers = await fetchUsers(id);
+    setUsers(fetchedUsers);
+  };
   useEffect(() => {
-    const loadUsers = async () => {
-      const fetchedUsers = await fetchUsers(id);
-      setUsers(fetchedUsers);
-    };
     loadUsers();
-  }, [id]);
+  }, []);
 
   const handleCardClick = () => {
     dispatch(
@@ -336,6 +368,7 @@ const TravelCard: React.FC<TravelCardProps> = ({
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         tripId={id}
+        onDataUpdate={loadUsers}
       />
       <ModalAvatar
         isOpen={isModalOpen2}

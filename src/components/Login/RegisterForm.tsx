@@ -76,7 +76,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading }) => {
             type="text"
             id="lastName"
             name="lastName"
-            autoFocus
             defaultValue={lastName}
             onChange={(e) => setLastName(e.target.value)}
             className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none"
