@@ -53,7 +53,7 @@ const NewPlaceForm: React.FC<NewPlaceFormProps> = ({
       formData.append("caption", "anhdiadiem");
 
       const uploadResponse = await axios.post(
-        "http://localhost:8888/api/v1/location/locations/image",
+        `${import.meta.env.VITE_BASE_API}/location/locations/image`,
         formData,
         {
           headers: {
@@ -75,7 +75,7 @@ const NewPlaceForm: React.FC<NewPlaceFormProps> = ({
         };
 
         const coordinatesResponse = await axios.post(
-          "http://localhost:8888/api/v1/location/locations/coordinates",
+          `${import.meta.env.VITE_BASE_API}/location/locations/coordinates`,
           coordinatesData,
           {
             headers: {

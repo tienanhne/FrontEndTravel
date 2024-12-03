@@ -23,7 +23,7 @@ const WriteBlog: React.FC = () => {
       const accessToken = localStorage.getItem("accessToken");
       try {
         const response = await axios.get(
-          "http://localhost:8888/api/v1/blog/categories?page=1&limit=6",
+          `${import.meta.env.VITE_BASE_API}/blog/categories?page=1&limit=6`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -74,11 +74,11 @@ const WriteBlog: React.FC = () => {
   const handleCreateCategory = async () => {
     if (newCategory.trim()) {
       try {
-        await axios.post("http://localhost:8888/api/v1/blog/categories", {
+        await axios.post(`${import.meta.env.VITE_BASE_API}/blog/categories`, {
           name: newCategory,
         });
         const response = await axios.get(
-          "http://localhost:8888/api/v1/blog/categories?page=1&limit=6"
+          `${import.meta.env.VITE_BASE_API}/blog/categories?page=1&limit=6`
         );
         const categoryNames = response.data.result.data.map(
           (item: { name: string }) => item.name
@@ -98,7 +98,7 @@ const WriteBlog: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/v1/blog/blogs/image",
+        `${import.meta.env.VITE_BASE_API}/blog/blogs/image`,
         formData,
         {
           headers: {
@@ -141,7 +141,7 @@ const WriteBlog: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/v1/blog/blogs",
+        `${import.meta.env.VITE_BASE_API}/blog/blogs`,
         blogData
       );
       console.log("Blog created successfully:", response.data);

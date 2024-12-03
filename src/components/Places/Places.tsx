@@ -25,7 +25,7 @@ const Places = () => {
     const fetchPlacesData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8888/api/v1/location/locations/news?limit=6"
+          `${import.meta.env.VITE_BASE_API}/location/locations/news?limit=6`
         );
         const data = response.data.result;
         setPlacesData(data);

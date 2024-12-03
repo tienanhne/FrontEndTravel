@@ -14,22 +14,72 @@ export type TravelType = {
   image: string;
   vietnameseLabel: string;
 };
-
-const vietnameseLabels: { [key: string]: string } = {
-  TOURIST_ATTRACTION: "Điểm tham quan",
-  RESTAURANT: "Nhà hàng",
-  SHOPPING: "Mua sắm",
-  PARK: "Công viên",
+const vietnameseLabels: Record<string, string> = {
   CULTURAL_SITE: "Di tích văn hóa",
+  TOURIST_ATTRACTION: "Điểm tham quan",
   ACCOMMODATION: "Chỗ ở",
-  ENTERTAINMENT: "Giải trí",
-  TRANSPORT_HUB: "Điểm giao thông",
-  EVENT: "Sự kiện",
-  ADVENTURE: "Phiêu lưu",
+  PARK: "Công viên",
   HEALTH_WELLNESS: "Sức khỏe & Thể dục",
+  ADVENTURE: "Phiêu lưu",
+  RESTAURANT: "Nhà hàng",
+  EVENT: "Sự kiện",
   EDUCATIONAL: "Giáo dục",
   FUNCTIONAL: "Chức năng",
-  ADMINISTRATIVE: "Hành chính",
+};
+
+const travelCategories = {
+  CULTURAL_TOURISM: {
+    vietnameseName: "Du lịch văn hóa",
+    types: ["CULTURAL_SITE", "TOURIST_ATTRACTION"],
+  },
+  RELAXATION_TOURISM: {
+    vietnameseName: "Du lịch nghỉ dưỡng",
+    types: ["ACCOMMODATION", "PARK", "HEALTH_WELLNESS"],
+  },
+  EXPLORATION_TOURISM: {
+    vietnameseName: "Du lịch khám phá",
+    types: ["TOURIST_ATTRACTION", "ADVENTURE"],
+  },
+  ECO_TOURISM: {
+    vietnameseName: "Du lịch sinh thái",
+    types: ["PARK"],
+  },
+  ADVENTURE_TOURISM: {
+    vietnameseName: "Du lịch mạo hiểm",
+    types: ["ADVENTURE"],
+  },
+  CULINARY_TOURISM: {
+    vietnameseName: "Du lịch ẩm thực",
+    types: ["RESTAURANT"],
+  },
+  SPIRITUAL_TOURISM: {
+    vietnameseName: "Du lịch tâm linh",
+    types: ["CULTURAL_SITE"],
+  },
+  EDUCATIONAL_TOURISM: {
+    vietnameseName: "Du lịch giáo dục",
+    types: ["EDUCATIONAL"],
+  },
+  ISLAND_TOURISM: {
+    vietnameseName: "Du lịch biển đảo",
+    types: ["TOURIST_ATTRACTION"],
+  },
+  COMMUNITY_TOURISM: {
+    vietnameseName: "Du lịch cộng đồng",
+    types: ["FUNCTIONAL"],
+  },
+  FESTIVAL_TOURISM: {
+    vietnameseName: "Du lịch mùa lễ hội",
+    types: ["EVENT"],
+  },
+  SPORT_TOURISM: {
+    vietnameseName: "Du lịch thể thao",
+    types: ["HEALTH_WELLNESS"],
+  },
+  HONEYMOON_TOURISM: {
+    vietnameseName: "Du lịch tuần trăng mật",
+    types: ["ACCOMMODATION"],
+  },
 };
 
 export const TravelTypeSelection = () => {
@@ -42,7 +92,7 @@ export const TravelTypeSelection = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8888/api/v1/profile/users/hobbies")
+      .get(`${import.meta.env.VITE_BASE_API}/profile/users/hobbies`)
       .then((response) => {
         const fetchedTypes = response.data.result.map((type: any) => ({
           label: type.label,
@@ -58,20 +108,20 @@ export const TravelTypeSelection = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8888/api/v1/profile/users/my-profile")
+      .get(`${import.meta.env.VITE_BASE_API}/profile/users/my-profile`)
       .then((response) => {
         const hobbies = response.data.result.hobbies || [];
         setUserHobbies(hobbies);
         dispatch(setSelectedTypes(hobbies));
       })
       .catch((error) => {
-        console.error("Error fetching user profile:", error);
+        console.error(`Error fetching user profile:`, error);
       });
   }, [dispatch]);
 
   const handleSelectType = (typeLabel: string) => {
     if (selectedTypes.includes(typeLabel)) {
-      dispatch(deselectType(typeLabel)); 
+      dispatch(deselectType(typeLabel));
     } else {
       dispatch(selectType(typeLabel));
     }
@@ -84,9 +134,9 @@ export const TravelTypeSelection = () => {
           key={type.label}
           onClick={() => handleSelectType(type.label)}
           className={`flex flex-col items-center p-4 border rounded-lg shadow-md transition transform cursor-pointer ${
-            selectedTypes.includes(type.label) ? 
-            "bg-gradient-to-r from-secondary-light to-primary-light text-white scale-105" :
-            "bg-white dark:bg-slate-600 text-gray-700 dark:text-white hover:bg-gray-100 hover:scale-105 hover:shadow-lg"
+            selectedTypes.includes(type.label)
+              ? "bg-gradient-to-r from-secondary-light to-primary-light text-white scale-105"
+              : "bg-white dark:bg-slate-600 text-gray-700 dark:text-white hover:bg-gray-100 hover:scale-105 hover:shadow-lg"
           }`}
         >
           <img

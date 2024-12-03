@@ -23,7 +23,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading }) => {
           password
         }
         setSubmitting(!isSubmitting)
-        const response =  await axios.post("http://localhost:8888/api/v1/identity/auth/register",JSON.stringify(data),{headers: headers});
+        const response =  await axios.post(`${import.meta.env.VITE_BASE_API}/identity/auth/register`,JSON.stringify(data),{headers: headers});
         if(response.status === 200){
           localStorage.setItem("accessToken", response.data.result.accessToken);
           Cookies.set("refreshToken", response.data.result.refreshToken, { expires: 7 });

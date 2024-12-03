@@ -32,7 +32,7 @@ const ReviewCarousel: React.FC<ReviewCarouselProps> = ({ locationId }) => {
 
       try {
         const response = await axios.get(
-          `http://localhost:8888/api/v1/review/reviews/${locationId}/location?page=1&limit=12`,
+          `${import.meta.env.VITE_BASE_API}/review/reviews/${locationId}/location?page=1&limit=12`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,

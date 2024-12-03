@@ -4,17 +4,20 @@ import { headers } from "../../Api/auth";
 
 /* eslint-disable @typescript-eslint/ban-types */
 const ForgetPassword: React.FC<{ onCancel: Function }> = ({ onCancel }) => {
-  const [email,setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const handleResetPassword = async () => {
     try {
       const data = {
         email,
-        urlRedirect: "http://localhost:3000/reset-password"
-      }
-      const response = await axios.post("http://localhost:8888/api/v1/identity/auth/forgot-password",JSON.stringify(data),{headers: headers})
+        urlRedirect: `${import.meta.env.VITE_BASE_FRONTEND}/reset-password`,
+      };
+      await axios.post(
+        `${import.meta.env.VITE_BASE_API}/identity/auth/forgot-password`,
+        JSON.stringify(data),
+        { headers: headers }
+      );
     } catch (error) {
       console.log(error);
-      
     }
     alert("Instructions to reset your password have been sent to your email.");
     onCancel();

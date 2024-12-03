@@ -35,7 +35,7 @@ const ShareModal: React.FC<{
 
     try {
       await axios.post(
-        `http://localhost:8888/api/v1/trip/trips/share/${tripId}`,
+        `${import.meta.env.VITE_BASE_API}/trip/trips/share/${tripId}`,
         data,
         {
           headers: {
@@ -117,7 +117,7 @@ const fetchUsers = async (tripId: number): Promise<User[]> => {
 
   try {
     const response = await axios.get(
-      `http://localhost:8888/api/v1/trip/trips/users/${tripId}/trip`,
+      `${import.meta.env.VITE_BASE_API}/trip/trips/users/${tripId}/trip`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

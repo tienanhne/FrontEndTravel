@@ -22,7 +22,7 @@ const BlogsComp: React.FC<BlogsCompProps> = ({ isLoadMore }) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:8888/api/v1/blog/blogs?page=${pageNumber}&limit=${limit}`
+        `${import.meta.env.VITE_BASE_API}/blog/blogs?page=${pageNumber}&limit=${limit}`
       );
       if (pageNumber === 1) {
         dispatch(setBlogs(response.data.result.data));

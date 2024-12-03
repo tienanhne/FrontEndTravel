@@ -31,7 +31,7 @@ const PlaceSearchComponent: React.FC<PlaceSearchProps> = ({ lat, lng, id }) => {
 
     try {
       const response = await axios.get(
-        `http://localhost:8888/api/v1/location/locations/radius`,
+        `${import.meta.env.VITE_BASE_API}/location/locations/radius`,
         {
           params: {
             lon: lng,
@@ -54,7 +54,7 @@ const PlaceSearchComponent: React.FC<PlaceSearchProps> = ({ lat, lng, id }) => {
 
     try {
       const response = await axios.get(
-        `http://localhost:8888/api/v1/trip/itineraries/${idTrip.id}/trip`,
+        `${import.meta.env.VITE_BASE_API}/trip/itineraries/${idTrip.id}/trip`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -102,7 +102,7 @@ const PlaceSearchComponent: React.FC<PlaceSearchProps> = ({ lat, lng, id }) => {
     const accessToken = localStorage.getItem("accessToken");
     try {
       const response = await axios.post(
-        `http://localhost:8888/api/v1/trip/itineraries/${dayId}`,
+        `${import.meta.env.VITE_BASE_API}/trip/itineraries/${dayId}`,
         { locationId: place_id },
         {
           headers: {

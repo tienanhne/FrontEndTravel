@@ -49,7 +49,7 @@ const LocationPopup: React.FC<LocationPopupProps> = ({
     const fetchLocationData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8888/api/v1/location/locations/lookup?lon=${lng}&lat=${lat}`,
+          `${import.meta.env.VITE_BASE_API}/location/locations/lookup?lon=${lng}&lat=${lat}`,
           { signal: abortController.signal }
         );
         const data = response.data.result;
@@ -83,7 +83,7 @@ const LocationPopup: React.FC<LocationPopupProps> = ({
 
       try {
         const response = await axios.get(
-          `http://localhost:8888/api/v1/review/reviews/detail/${locationData.place_id}`
+          `${import.meta.env.VITE_BASE_API}/review/reviews/detail/${locationData.place_id}`
         );
         const data = response.data.result;
 
@@ -127,13 +127,13 @@ const LocationPopup: React.FC<LocationPopupProps> = ({
       let response;
       if (hasReviewed && reviewId) {
         response = await axios.put(
-          `http://localhost:8888/api/v1/review/reviews/${reviewId}`,
+          `${import.meta.env.VITE_BASE_API}/review/reviews/${reviewId}`,
           reviewData
         );
         toast.success("Cập nhật nhận xét thành công");
       } else {
         response = await axios.post(
-          "http://localhost:8888/api/v1/review/reviews",
+          "${import.meta.env.VITE_BASE_API}/review/reviews",
           reviewData
         );
         toast.success("Nhận xét địa điểm thành công");
@@ -147,7 +147,7 @@ const LocationPopup: React.FC<LocationPopupProps> = ({
       setUserRating(0);
 
       const updatedLocationResponse = await axios.get(
-        `http://localhost:8888/api/v1/location/locations/lookup?lon=${lng}&lat=${lat}`
+        `${import.meta.env.VITE_BASE_API}/location/locations/lookup?lon=${lng}&lat=${lat}`
       );
       const updatedLocationData = updatedLocationResponse.data.result;
       setLocationData({

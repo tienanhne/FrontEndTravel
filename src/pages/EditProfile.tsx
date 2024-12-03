@@ -65,7 +65,7 @@ const EditProfile: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.put("http://localhost:8888/api/v1/profile/users/hobbies", {
+      await axios.put(`${import.meta.env.VITE_BASE_API}/profile/users/hobbies`, {
         hobbies: selectedTypes,
       });
       toast.success("Cập nhật sở thích thành công!");

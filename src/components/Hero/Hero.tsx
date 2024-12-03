@@ -24,23 +24,6 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-// const typeOptions = [
-//   { key: "TOURIST_ATTRACTION", label: "Điểm tham quan" },
-//   { key: "RESTAURANT", label: "Nhà hàng" },
-//   { key: "SHOPPING", label: "Mua sắm" },
-//   { key: "PARK", label: "Công viên" },
-//   { key: "CULTURAL_SITE", label: "Di tích văn hóa" },
-//   { key: "ACCOMMODATION", label: "Nơi ở" },
-//   { key: "ENTERTAINMENT", label: "Giải trí" },
-//   { key: "TRANSPORT_HUB", label: "Trạm trung chuyển" },
-//   { key: "EVENT", label: "Sự kiện" },
-//   { key: "ADVENTURE", label: "Phiêu lưu" },
-//   { key: "HEALTH_WELLNESS", label: "Sức khỏe & Wellness" },
-//   { key: "EDUCATIONAL", label: "Giáo dục" },
-//   { key: "FUNCTIONAL", label: "Chức năng" },
-//   { key: "ADMINISTRATIVE", label: "Hành chính" },
-// ];
-
 const Hero = () => {
   const [departureDate, setDepartureDate] = useState<string>("");
   const [returnDate, setReturnDate] = useState<string>("");
@@ -93,7 +76,7 @@ const Hero = () => {
     }
     try {
       const response = await axios.get(
-        `http://localhost:8888/api/v1/location/locations?q=${query}&limit=1`
+        `${import.meta.env.VITE_BASE_API}/location/locations?q=${query}&limit=1`
       );
       const data = response.data.result;
 
@@ -150,7 +133,7 @@ const Hero = () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.post(
-        "http://localhost:8888/api/v1/trip/trips",
+        `${import.meta.env.VITE_BASE_API}/trip/trips`,
         tripData,
         {
           headers: {
@@ -192,7 +175,7 @@ const Hero = () => {
     try {
       const accessToken = localStorage.getItem("accessToken");
       const response = await axios.post(
-        "http://localhost:8888/api/v1/trip/trips/generate",
+        `${import.meta.env.VITE_BASE_API}/trip/trips/generate`,
         tripData,
         {
           headers: {

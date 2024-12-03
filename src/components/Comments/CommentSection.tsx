@@ -36,7 +36,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
     const fetchComments = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8888/api/v1/blog/comments/${idPost}/blog`
+          `${import.meta.env.VITE_BASE_API}/blog/comments/${idPost}/blog`
         );
         const commentsData = response.data.result;
         const groupedComments = groupCommentsByTreeId(commentsData);
@@ -74,7 +74,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
     if (newComment.trim()) {
       try {
         await axios.post(
-          `http://localhost:8888/api/v1/blog/comments/${idPost}/post`,
+          `${import.meta.env.VITE_BASE_API}/blog/comments/${idPost}/post`,
           {
             content: newComment,
             treeId: null,
@@ -83,7 +83,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
         );
         setNewComment("");
         const response = await axios.get(
-          `http://localhost:8888/api/v1/blog/comments/${idPost}/blog`
+          `${import.meta.env.VITE_BASE_API}/blog/comments/${idPost}/blog`
         );
         const updatedComments = groupCommentsByTreeId(response.data.result);
         setComments(updatedComments);
@@ -98,7 +98,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
     if (replyContent && replyContent.trim()) {
       try {
         await axios.post(
-          `http://localhost:8888/api/v1/blog/comments/${idPost}/post`,
+          `${import.meta.env.VITE_BASE_API}/blog/comments/${idPost}/post`,
           {
             content: replyContent,
             treeId,
@@ -108,7 +108,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
         setNewReply((prev) => ({ ...prev, [commentId]: "" }));
         setReplyingTo(null);
         const response = await axios.get(
-          `http://localhost:8888/api/v1/blog/comments/${idPost}/blog`
+          `${import.meta.env.VITE_BASE_API}/blog/comments/${idPost}/blog`
         );
         const updatedComments = groupCommentsByTreeId(response.data.result);
         setComments(updatedComments);
@@ -128,12 +128,12 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
     if (updatedContent.trim()) {
       try {
         await axios.put(
-          `http://localhost:8888/api/v1/blog/comments/${commentId}`,
+          `${import.meta.env.VITE_BASE_API}/blog/comments/${commentId}`,
           { content: updatedContent }
         );
         setEditingComment(null);
         const response = await axios.get(
-          `http://localhost:8888/api/v1/blog/comments/${idPost}/blog`
+          `${import.meta.env.VITE_BASE_API}/blog/comments/${idPost}/blog`
         );
         const updatedComments = groupCommentsByTreeId(response.data.result);
         setComments(updatedComments);

@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 
-const API_URL = "http://localhost:8888/api/v1";
 
 const getAccessToken = (): string | null => {
   return localStorage.getItem("accessToken"); // Hoặc cách bạn lưu accessToken
 };
 
 const apiClient = axios.create({
-  baseURL: API_URL,
+  baseURL: import.meta.env.VITE_BASE_API,
 });
 
 apiClient.interceptors.request.use(

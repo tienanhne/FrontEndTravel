@@ -56,7 +56,7 @@ const Handcrafted: React.FC = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:8888/api/v1/trip/itineraries/${tripId}/trip`,
+          `${import.meta.env.VITE_BASE_API}/trip/itineraries/${tripId}/trip`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -82,7 +82,7 @@ const Handcrafted: React.FC = () => {
       };
 
       const response = await axios.post(
-        `http://localhost:8888/api/v1/trip/itineraries/${tripId}/trip`,
+        `${import.meta.env.VITE_BASE_API}/trip/itineraries/${tripId}/trip`,
         newDay,
         {
           headers: {
@@ -117,7 +117,7 @@ const Handcrafted: React.FC = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8888/api/v1/trip/itineraries/${dayId}`,
+        `${import.meta.env.VITE_BASE_API}/trip/itineraries/${dayId}`,
         { locationId },
         {
           headers: {
@@ -157,7 +157,7 @@ const Handcrafted: React.FC = () => {
 
     try {
       await axios.delete(
-        `http://localhost:8888/api/v1/trip/itineraries/${dayId}`,
+        `${import.meta.env.VITE_BASE_API}/trip/itineraries/${dayId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -182,7 +182,7 @@ const Handcrafted: React.FC = () => {
 
     try {
       await axios.delete(
-        `http://localhost:8888/api/v1/trip/itineraries/${destinationId}/destination`,
+        `${import.meta.env.VITE_BASE_API}/trip/itineraries/${destinationId}/destination`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -249,7 +249,7 @@ const Handcrafted: React.FC = () => {
 
         console.log("data drop", data);
         const response = await axios.put(
-          "http://localhost:8888/api/v1/trip/itineraries/swap",
+          `${import.meta.env.VITE_BASE_API}/trip/itineraries/swap`,
           data,
           {
             headers,

@@ -67,7 +67,7 @@ const MapComponent: React.FC = () => {
           const accessToken = localStorage.getItem("accessToken");
 
           const response = await fetch(
-            `http://localhost:8888/api/v1/trip/itineraries/${tripId}/trip`,
+            `${import.meta.env.VITE_BASE_API}/trip/itineraries/${tripId}/trip`,
             {
               method: "GET",
               headers: {

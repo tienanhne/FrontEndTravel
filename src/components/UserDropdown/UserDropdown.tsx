@@ -29,7 +29,7 @@ export const fetchUserProfile = async (dispatch: Dispatch<UnknownAction>) => {
 
   try {
     const response = await axios.get(
-      "http://localhost:8888/api/v1/profile/users/my-profile",
+      `${import.meta.env.VITE_BASE_API}/profile/users/my-profile`,
       { headers }
     );
 
@@ -68,7 +68,7 @@ const UserDropdown: React.FC = () => {
       const refreshToken = Cookies.get("refreshToken");
       if (!accessToken) return;
       const response = await axios.post(
-        "http://localhost:8888/api/v1/identity/auth/logout",
+        `${import.meta.env.VITE_BASE_API}/identity/auth/logout`,
         {
           token: refreshToken,
         },
