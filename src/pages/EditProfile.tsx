@@ -57,7 +57,7 @@ const EditProfile: React.FC = () => {
   const [newPassword, setNewPassword] = useState("");
   const [activeTab, setActiveTab] = useState<
     "editProfile" | "changePassword" | "selectType"
-  >("editProfile");
+  >("selectType");
   const selectedTypes = useSelector(
     (state: RootState) => state.travelType.selectedTypes
   );
