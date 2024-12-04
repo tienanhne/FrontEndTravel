@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { State } from "../../redux/store/store";
 import { useUser } from "../../context/UserContext";
 import TravelCardSkeleton from "./TravelCardSkeleton";
+import { useNavigate } from "react-router-dom";
 
 interface Trip {
   id: number;
@@ -23,35 +24,35 @@ const HistoryTravel: React.FC = () => {
   const { account: user } = useSelector((state: State) => state.user);
   const { handleOrderPopup } = useUser();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const fetchTrips = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+
+      if (!token) {
+        return;
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const response = await axios.get(
+        "http://localhost:8888/api/v1/trip/trips/my-trip",
+        config
+      );
+      const data: Trip[] = response.data.result;
+      setTrips(data);
+      setLoading(true);
+    } catch (error) {
+      console.error("Error fetching trips:", error);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchTrips = async () => {
-      try {
-        const token = localStorage.getItem("accessToken");
-
-        if (!token) {
-          return;
-        }
-
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-
-        const response = await axios.get(
-          "http://localhost:8888/api/v1/trip/trips/my-trip",
-          config
-        );
-        const data: Trip[] = response.data.result;
-        setTrips(data);
-        setLoading(true);
-      } catch (error) {
-        console.error("Error fetching trips:", error);
-        setLoading(false);
-      }
-    };
-
     fetchTrips();
   }, []);
 
@@ -112,31 +113,48 @@ const HistoryTravel: React.FC = () => {
         </div>
       ) : (
         <section data-aos="fade-up" className="container">
-          <h1 className="my-8 border-l-8 border-primary/50 py-2 pl-2 text-3xl font-bold">
+          <h1 className="my-6 border-l-8 border-primary/50 py-2 pl-2 text-3xl font-bold">
             Chuyến đi của tôi
           </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-            {trips.slice(0, visibleTrips).map((trip) => (
-              <TravelCard
-                id={trip.id}
-                key={trip.id}
-                title={trip.title}
-                startDate={trip.startDate}
-                endDate={trip.endDate}
-                permission={trip.permission}
-                location={trip.location}
-              />
-            ))}
-          </div>
-          {visibleTrips < trips.length && (
-            <div className="flex justify-center mt-8">
+          {trips.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-xl font-semibold text-gray-500">
+                Không có chuyến đi nào.
+              </p>
               <button
-                onClick={loadMoreTrips}
-                className="py-3 px-6 bg-white text-primary font-semibold rounded-lg shadow-lg hover:bg-primary hover:text-white hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1"
+                onClick={() => navigate("/")}
+                className="mt-6 py-3 px-6 bg-primary text-white font-semibold rounded-lg shadow-lg hover:bg-primary/80 transition-all duration-300 ease-in-out transform hover:-translate-y-1"
               >
-                Xem thêm
+                Tạo chuyến đi cho tôi
               </button>
             </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                {trips.slice(0, visibleTrips).map((trip) => (
+                  <TravelCard
+                    id={trip.id}
+                    key={trip.id}
+                    title={trip.title}
+                    startDate={trip.startDate}
+                    endDate={trip.endDate}
+                    permission={trip.permission}
+                    location={trip.location}
+                    loadTrip={fetchTrips}
+                  />
+                ))}
+              </div>
+              {visibleTrips < trips.length && (
+                <div className="flex justify-center mt-8">
+                  <button
+                    onClick={loadMoreTrips}
+                    className="py-3 px-6 bg-white text-primary font-semibold rounded-lg shadow-lg hover:bg-primary hover:text-white hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-1"
+                  >
+                    Xem thêm
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </section>
       )}

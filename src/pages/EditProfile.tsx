@@ -38,7 +38,6 @@ const changeAvatar = async (id: number) => {
   return response.data.result;
 };
 
-
 const EditProfile: React.FC = () => {
   const { account } = useSelector((state: State) => state.user);
   const dispatch = useDispatch();
@@ -65,9 +64,13 @@ const EditProfile: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.put(`${import.meta.env.VITE_BASE_API}/profile/users/hobbies`, {
-        hobbies: selectedTypes,
-      });
+      await axios.put(
+        `${import.meta.env.VITE_BASE_API}/profile/users/hobbies`,
+        {
+          hobbies: selectedTypes,
+        }
+      );
+      console.log(selectedTypes);
       toast.success("Cập nhật sở thích thành công!");
     } catch (error) {
       toast.error("Cập nhật sở thích thất bại!");

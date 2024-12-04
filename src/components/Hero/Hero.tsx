@@ -163,7 +163,6 @@ const Hero = () => {
     const selectedLocation = suggestions.find(
       (city) => city.address.city === destext
     );
-    console.log("hero: ", selectedTypes);
     const tripData = {
       title: destitle,
       startDate: new Date(departureDate).toISOString(),
@@ -234,7 +233,7 @@ const Hero = () => {
         style={customStyles}
         overlayClassName="modal-overlay bg-black bg-opacity-50 fixed inset-0 z-50"
       >
-        <div className="p-8 dark:bg-slate-700 w-[700px] rounded-lg shadow-lg transition-transform transform scale-105">
+        <div className="p-8 dark:bg-slate-700 w-[800px] rounded-lg shadow-lg transition-transform transform scale-105">
           <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">
             Chọn các loại địa điểm
           </h2>

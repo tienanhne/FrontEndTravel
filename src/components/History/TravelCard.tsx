@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { IoLocationSharp } from "react-icons/io5";
-import { BsThreeDots } from "react-icons/bs";
+import { BsThreeDots, BsTrash } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setDestinationDetails } from "../Maps/destinationsSlice";
@@ -212,7 +212,10 @@ const ModalAvatar: React.FC<{
       overlayClassName="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70"
     >
       <div className="mb-4">
-        <h3 className="text-lg font-semibold mb-3">Chi tiết nhóm của bạn</h3>
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-semibold mb-3">Chi tiết nhóm của bạn</h3>
+          <h3 className="text-lg font-semibold mb-3">Quyền hạn</h3>
+        </div>
         {loading ? (
           <p>Đang tải...</p>
         ) : (
@@ -263,6 +266,7 @@ interface TravelCardProps {
   endDate: string;
   permission: string;
   location: Location;
+  loadTrip: () => void;
 }
 
 const TravelCard: React.FC<TravelCardProps> = ({
@@ -272,6 +276,7 @@ const TravelCard: React.FC<TravelCardProps> = ({
   endDate,
   permission,
   location,
+  loadTrip,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -307,15 +312,51 @@ const TravelCard: React.FC<TravelCardProps> = ({
     e.stopPropagation();
     setIsModalOpen(true);
   };
+  const handleDeleteClick = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (!accessToken) {
+      toast.warning("Bạn cần đăng nhập để thực hiện thao tác này.");
+      return;
+    }
+
+    const confirmDelete = window.confirm(
+      "Bạn có chắc chắn muốn xóa chuyến đi này?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`${import.meta.env.VITE_BASE_API}/trip/trips/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      toast.success("Xóa chuyến đi thành công!");
+      loadTrip();
+    } catch (error) {
+      console.error("Lỗi khi xóa chuyến đi:", error);
+      toast.error("Có lỗi xảy ra. Vui lòng thử lại.");
+    }
+  };
 
   return (
     <div className="relative shadow-lg transition-all duration-500 hover:shadow-xl dark:bg-slate-950 dark:text-white cursor-pointer rounded-lg overflow-hidden">
-      <div className="overflow-hidden" onClick={handleCardClick}>
+      <div className="overflow-hidden relative" onClick={handleCardClick}>
         <img
           src={location.thumbnail.url}
           alt="No image"
           className="mx-auto h-[220px] w-full object-cover transition duration-700 hover:scale-110"
         />
+        {permission === "OWNER" && (
+          <button
+            className="absolute top-3 right-3 bg-orange-100 bg-opacity-60 text-red-500 p-2 rounded-full shadow-md hover:bg-red-500 hover:bg-opacity-80 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-300 transition-all duration-200 ease-in-out"
+            onClick={handleDeleteClick}
+            aria-label="Delete card"
+          >
+            <BsTrash size={20} className="text-red-500 hover:text-white" />
+          </button>
+        )}
       </div>
       <div className="space-y-2 p-4">
         <h1 className="font-bold text-xl line-clamp-1">{title}</h1>
@@ -366,6 +407,7 @@ const TravelCard: React.FC<TravelCardProps> = ({
           )}
         </div>
       </div>
+
       <ShareModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -12,79 +12,8 @@ import { deselectType, selectType, setSelectedTypes } from "./TypeSlice";
 export type TravelType = {
   label: string;
   image: string;
-  vietnameseLabel: string;
+  name: string;
 };
-const vietnameseLabels: Record<string, string> = {
-  TOURIST_ATTRACTION: "Điểm tham quan",
-  RESTAURANT: "Nhà hàng",
-  SHOPPING: "Mua sắm",
-  PARK: "Công viên",
-  CULTURAL_SITE: "Di tích văn hóa",
-  ACCOMMODATION: "Chỗ ở",
-  ENTERTAINMENT: "Giải trí",
-  TRANSPORT_HUB: "Điểm giao thông",
-  EVENT: "Sự kiện",
-  ADVENTURE: "Phiêu lưu",
-  HEALTH_WELLNESS: "Sức khỏe & Thể dục",
-  EDUCATIONAL: "Giáo dục",
-  FUNCTIONAL: "Chức năng",
-  ADMINISTRATIVE: "Hành chính",
-};
-
-// const travelCategories = {
-//   CULTURAL_TOURISM: {
-//     vietnameseName: "Du lịch văn hóa",
-//     types: ["CULTURAL_SITE", "TOURIST_ATTRACTION"],
-//   },
-//   RELAXATION_TOURISM: {
-//     vietnameseName: "Du lịch nghỉ dưỡng",
-//     types: ["ACCOMMODATION", "PARK", "HEALTH_WELLNESS"],
-//   },
-//   EXPLORATION_TOURISM: {
-//     vietnameseName: "Du lịch khám phá",
-//     types: ["TOURIST_ATTRACTION", "ADVENTURE"],
-//   },
-//   ECO_TOURISM: {
-//     vietnameseName: "Du lịch sinh thái",
-//     types: ["PARK"],
-//   },
-//   ADVENTURE_TOURISM: {
-//     vietnameseName: "Du lịch mạo hiểm",
-//     types: ["ADVENTURE"],
-//   },
-//   CULINARY_TOURISM: {
-//     vietnameseName: "Du lịch ẩm thực",
-//     types: ["RESTAURANT"],
-//   },
-//   SPIRITUAL_TOURISM: {
-//     vietnameseName: "Du lịch tâm linh",
-//     types: ["CULTURAL_SITE"],
-//   },
-//   EDUCATIONAL_TOURISM: {
-//     vietnameseName: "Du lịch giáo dục",
-//     types: ["EDUCATIONAL"],
-//   },
-//   ISLAND_TOURISM: {
-//     vietnameseName: "Du lịch biển đảo",
-//     types: ["TOURIST_ATTRACTION"],
-//   },
-//   COMMUNITY_TOURISM: {
-//     vietnameseName: "Du lịch cộng đồng",
-//     types: ["FUNCTIONAL"],
-//   },
-//   FESTIVAL_TOURISM: {
-//     vietnameseName: "Du lịch mùa lễ hội",
-//     types: ["EVENT"],
-//   },
-//   SPORT_TOURISM: {
-//     vietnameseName: "Du lịch thể thao",
-//     types: ["HEALTH_WELLNESS"],
-//   },
-//   HONEYMOON_TOURISM: {
-//     vietnameseName: "Du lịch tuần trăng mật",
-//     types: ["ACCOMMODATION"],
-//   },
-// };
 
 export const TravelTypeSelection = () => {
   const dispatch = useDispatch();
@@ -101,7 +30,7 @@ export const TravelTypeSelection = () => {
         const fetchedTypes = response.data.result.map((type: any) => ({
           label: type.label,
           image: type.image,
-          vietnameseLabel: vietnameseLabels[type.label] || type.label,
+          name: type.name,
         }));
         setTravelTypes(fetchedTypes);
       })
@@ -145,10 +74,10 @@ export const TravelTypeSelection = () => {
         >
           <img
             src={type.image}
-            alt={type.vietnameseLabel}
+            alt={type.name}
             className="w-20 h-20 rounded-md object-cover mb-2"
           />
-          <span className="text-lg font-semibold">{type.vietnameseLabel}</span>
+          <span className="text-lg font-semibold">{type.name}</span>
         </div>
       ))}
     </div>

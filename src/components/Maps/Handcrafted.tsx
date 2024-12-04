@@ -182,7 +182,9 @@ const Handcrafted: React.FC = () => {
 
     try {
       await axios.delete(
-        `${import.meta.env.VITE_BASE_API}/trip/itineraries/${destinationId}/destination`,
+        `${
+          import.meta.env.VITE_BASE_API
+        }/trip/itineraries/${destinationId}/destination`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -265,7 +267,6 @@ const Handcrafted: React.FC = () => {
     }
   };
 
-
   return (
     <div className="space-y-6">
       {results.map((day: Result) => (
@@ -277,12 +278,14 @@ const Handcrafted: React.FC = () => {
             <h3 className="text-xl font-semibold text-white">
               {new Date(day.day).toLocaleDateString("vi-VN")}
             </h3>
-            <button
-              onClick={() => handleRemoveDay(day.id)}
-              className="text-white remove-day-button text-sm font-semibold hover:underline"
-            >
-              Xóa
-            </button>
+            {canEdit && (
+              <button
+                onClick={() => handleRemoveDay(day.id)}
+                className="text-white remove-day-button text-sm font-semibold hover:underline"
+              >
+                Xóa
+              </button>
+            )}
           </div>
 
           {selectedDate &&
