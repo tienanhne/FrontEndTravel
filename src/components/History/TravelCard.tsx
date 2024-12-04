@@ -19,7 +19,7 @@ const ShareModal: React.FC<{
   onDataUpdate: () => void;
 }> = ({ isOpen, onClose, tripId, onDataUpdate }) => {
   const [email, setEmail] = useState("");
-  const [permissions, setPermissions] = useState<string | null>(null); 
+  const [permissions, setPermissions] = useState<string | null>(null);
 
   const handlePermissionChange = (permission: string) => {
     setPermissions((prev) => (prev === permission ? null : permission));
@@ -131,6 +131,7 @@ const fetchUsers = async (tripId: number): Promise<User[]> => {
       email: user.email,
       tripPermission: user.tripPermission,
       avatar: user.avatar || "https://via.placeholder.com/150",
+      name: user.name || "Người bạn",
     }));
   } catch (error) {
     console.error("Lỗi khi lấy danh sách người dùng:", error);
@@ -142,6 +143,7 @@ interface User {
   email: string;
   tripPermission: string;
   avatar: string;
+  name: string;
 }
 
 const ModalAvatar: React.FC<{
@@ -223,7 +225,7 @@ const ModalAvatar: React.FC<{
                     alt={user.email}
                     className="h-10 w-10 rounded-full border border-gray-300"
                   />
-                  <span>{user.email}</span>
+                  <span>{user.name}</span>
                 </div>
                 <select
                   defaultValue={user.tripPermission.toLowerCase()}

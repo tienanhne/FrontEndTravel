@@ -10,7 +10,6 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { axiosSetup } from "./Api/axiosSetup";
-import ResetPassword from "./pages/ResetPassword";
 
 const Home = lazy(() => import("./pages/Home"));
 const Layout = lazy(() => import("./pages/Layout"));
@@ -25,6 +24,7 @@ const WriteBlog = lazy(() => import("./components/Blogs/WriteBlog"));
 const ChatWidget = lazy(() => import("./components/Chats/ChatWidget"));
 const EditProfile = lazy(() => import("./pages/EditProfile"));
 const PlaceDetail = lazy(() => import("./components/Places/PlaceDetail"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 function App() {
   useEffect(() => {
     axiosSetup(); // Chỉ chạy một lần khi ứng dụng được khởi động
@@ -53,12 +53,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
-              <Route path="reset-password" element={<ResetPassword/>} />
               <Route path="blogs" element={<Blogs />} />
               <Route path="blogs/:id" element={<BlogsDetails />} />
               <Route path="best-places" element={<PlacesRoute />} />
               <Route path="best-places/:id" element={<PlaceDetail />} />
-
               <Route path="about" element={<About />} />
               <Route path="history-travel" element={<HistoryPage />} />
               <Route path="WriteBlog" element={<WriteBlog />} />
@@ -74,6 +72,7 @@ function App() {
                 }
               />
               <Route path="edit-profile" element={<EditProfile />} />
+              <Route path="reset-password" element={<ResetPassword />} />
             </Route>
           </Routes>
           <ChatWidget />
