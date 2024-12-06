@@ -60,12 +60,12 @@ const MapDetails: React.FC<MapDetailsProps> = ({ day, onBack }) => {
       <div className="flex justify-between items-center mt-6">
         <button
           onClick={onBack}
-          className="bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary transition-all duration-500 text-white py-3 px-8 rounded-full shadow-lg transform hover:scale-105"
+          className="bg-gradient-to-r from-primary w-32 to-secondary hover:from-secondary hover:to-primary transition-all duration-500 text-white py-3 px-6 rounded-lg shadow-lg transform hover:scale-105"
         >
           Trở về
         </button>
-        <div className="text-lg font-bold text-primary dark:text-white bg-gray-200 dark:bg-gray-700 py-3 px-6 rounded-lg shadow-md">
-          Tổng thời gian ước tính: {formatTotalTime(totalTime)}
+        <div className="text-md font-bold text-primary dark:text-white bg-gray-200 dark:bg-gray-700 py-3 px-6 rounded-lg shadow-md">
+           Thời gian ước tính: {formatTotalTime(totalTime)}
         </div>
       </div>
     </div>

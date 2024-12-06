@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { deselectType, selectType, setSelectedTypes } from "./TypeSlice";
 
@@ -61,12 +59,12 @@ export const TravelTypeSelection = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 max-h-[300px] gap-6 overflow-y-auto no-scrollbar px-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 gap-4 p-4 max-h-[300px] overflow-y-auto no-scrollbar">
       {travelTypes.map((type) => (
         <div
           key={type.label}
           onClick={() => handleSelectType(type.label)}
-          className={`flex flex-col items-center p-4 border rounded-lg shadow-md transition transform cursor-pointer ${
+          className={`flex flex-col items-center p-4 sm:p-2 border rounded-lg shadow-md transition transform cursor-pointer ${
             selectedTypes.includes(type.label)
               ? "bg-gradient-to-r from-secondary-light to-primary-light text-white scale-105"
               : "bg-white dark:bg-slate-600 text-gray-700 dark:text-white hover:bg-gray-100 hover:scale-105 hover:shadow-lg"
@@ -75,9 +73,11 @@ export const TravelTypeSelection = () => {
           <img
             src={type.image}
             alt={type.name}
-            className="w-20 h-20 rounded-md object-cover mb-2"
+            className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-md object-cover mb-2"
           />
-          <span className="text-lg font-semibold">{type.name}</span>
+          <span className="text-xs sm:text-sm md:text-base font-semibold text-center">
+            {type.name}
+          </span>
         </div>
       ))}
     </div>
