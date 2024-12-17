@@ -8,21 +8,19 @@ import BlogCardSkeleton from "./BlogCardSkeleton";
 
 const limit = 6;
 
-interface BlogsCompProps {
-  isLoadMore: boolean;
-}
-
-const BlogsComp: React.FC<BlogsCompProps> = ({ isLoadMore }) => {
+const BlogsComp = () => {
   const dispatch = useDispatch();
   const blogs = useSelector((state: RootState) => state.blogs.blogs);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
 
-  const fetchBlogs = async (pageNumber: number) => {
+  const fetchBlogs = async (pageNumber: number, q?: string) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_BASE_API}/blog/blogs?page=${pageNumber}&limit=${limit}`
+        `${
+          import.meta.env.VITE_BASE_API
+        }/blog/blogs?page=${pageNumber}&limit=${limit}${q ? `&q=${q}` : ""}`
       );
       if (pageNumber === 1) {
         dispatch(setBlogs(response.data.result.data));
@@ -72,7 +70,7 @@ const BlogsComp: React.FC<BlogsCompProps> = ({ isLoadMore }) => {
               <BlogCardSkeleton key={index} />
             ))}
         </div>
-        {isLoadMore && blogs.length > 6 ? (
+        {blogs.length > 6 ? (
           <div className="flex justify-center mt-4">
             <button
               onClick={handleLoadMore}

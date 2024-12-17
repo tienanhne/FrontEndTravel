@@ -53,7 +53,7 @@ const BlogsDetails = () => {
 
       {/* CommentComponent */}
       <CommentComponent idPost={id} />
-      <BlogsComp isPaginate={false} />
+      <BlogsComp />
     </div>
   );
 };

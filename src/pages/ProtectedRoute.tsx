@@ -5,7 +5,7 @@ import { RootState, State } from "../redux/store/store";
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const destination = useSelector(
-    (state: RootState) => state.destinations.location?.address.city
+    (state: RootState) => state.destinations.destext
   );
   const { account } = useSelector((state: State) => state.user);
 

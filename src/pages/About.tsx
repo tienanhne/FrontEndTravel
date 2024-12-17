@@ -1,8 +1,9 @@
 import Location from "../components/Location/Location";
 import { FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
-import anhkhoa from "../assets/profile/anhkhoa.jpg"
-import anhtien from "../assets/profile/anhtien.jpg"
-import anhduy from "../assets/profile/anhDuy.jpg"
+import anhkhoa from "../assets/profile/anhkhoa.jpg";
+import anhtien from "../assets/profile/anhtien.png";
+import anhduy from "../assets/profile/anhDuy.jpg";
+import anhkiet from "../assets/profile/anhKiet.jpg";
 
 const people = [
   {
@@ -13,19 +14,20 @@ const people = [
     social: {
       facebook: "https://www.facebook.com/tienld03?locale=vi_VN",
       twitter: "#",
-      linkedin: "#"
-    }
+      linkedin: "#",
+    },
   },
   {
     name: "Ngô Tuấn Kiệt",
-    mssv: "20180002",
-    email: "jane.smith@example.com",
-    img: "https://loremflickr.com/200/200?random=2",
+    mssv: "121000216",
+    email: "ngotuankiet12347@gmail.com",
+    img: anhkiet,
     social: {
-      facebook: "#",
+      facebook:
+        "https://www.facebook.com/profile.php?id=100009718303827&locale=vi_VN",
       twitter: "#",
-      linkedin: "#"
-    }
+      linkedin: "#",
+    },
   },
   {
     name: "Nguyễn Đăng Khoa",
@@ -35,8 +37,8 @@ const people = [
     social: {
       facebook: "https://www.facebook.com/khoa.nd09?mibextid=LQQJ4d",
       twitter: "#",
-      linkedin: "#"
-    }
+      linkedin: "#",
+    },
   },
   {
     name: "Đặng Văn Duy",
@@ -44,11 +46,12 @@ const people = [
     email: "dangvanduy4103@gmail.com",
     img: anhduy,
     social: {
-      facebook: "https://www.facebook.com/profile.php?id=100007163389464&locale=vi_VN",
+      facebook:
+        "https://www.facebook.com/profile.php?id=100007163389464&locale=vi_VN",
       twitter: "#",
-      linkedin: "#"
-    }
-  }
+      linkedin: "#",
+    },
+  },
 ];
 
 const About = () => {
@@ -100,6 +103,44 @@ const About = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+        <div className="py-10">
+          <h1 className="my-8 border-l-8 border-primary/50 py-2 pl-4 text-3xl font-bold ">
+            Giới thiệu chung về dự án
+          </h1>
+          <p className="text-lg leading-relaxed">
+            Dự án website du lịch thông minh được xây dựng nhằm mục đích giúp
+            người dùng dễ dàng lên kế hoạch cho các chuyến đi, khám phá các địa
+            điểm mới, và quản lý lịch trình một cách hiệu quả. Với giao diện
+            thân thiện và các tính năng hiện đại, hệ thống hứa hẹn mang lại trải
+            nghiệm mượt mà và tối ưu cho người dùng.
+          </p>
+          <div className="mt-6">
+            <h2 className="text-xl font-semibold mb-4">
+              Điểm nổi bật của dự án:
+            </h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li>Gợi ý địa điểm và lịch trình dựa trên sở thích.</li>
+              <li>
+                Hỗ trợ tương tác bản đồ với các tính năng kéo thả và xem chi
+                tiết địa điểm.
+              </li>
+              <li>Tích hợp tính năng quản lý lịch trình cá nhân hóa.</li>
+              <li>
+                Giao diện thân thiện, tối ưu cho cả thiết bị di động và máy
+                tính.
+              </li>
+            </ul>
+          </div>
+          <div className="mt-8">
+            <a
+              href="https://docs.google.com/document/d/1Y0O_8FQfLDlH0ECRoYdu1PAKYRSJNpnhI8FPGWiAU2k/edit?tab=t.0"
+              target="_blank"
+              className="inline-block px-6 py-3 text-white bg-primary hover:bg-primary-dark rounded-lg shadow-lg font-medium text-lg transition duration-300"
+            >
+              Tìm hiểu thêm
+            </a>
           </div>
         </div>
       </div>

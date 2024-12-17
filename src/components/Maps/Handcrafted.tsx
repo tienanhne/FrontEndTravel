@@ -307,48 +307,69 @@ const Handcrafted: React.FC = () => {
                 />
               )}
 
-              <DragDropContext onDragEnd={onDragEnd}>
-                <Droppable droppableId={day.id.toString()}>
-                  {(provided) => (
-                    <ul
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      className="space-y-3 mt-4"
+              {canEdit ? (
+                <DragDropContext onDragEnd={onDragEnd}>
+                  <Droppable droppableId={day.id.toString()}>
+                    {(provided) => (
+                      <ul
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        className="space-y-3 mt-4"
+                      >
+                        {day.destinations.map((destination, index) => (
+                          <Draggable
+                            key={destination.id}
+                            draggableId={String(destination.id)}
+                            index={index}
+                          >
+                            {(provided) => (
+                              <li
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                className="destination-item flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-700 rounded-md shadow-md"
+                              >
+                                <div className="flex-1 destination-item">
+                                  <DestinationItem
+                                    destination={destination}
+                                    onRemove={() =>
+                                      handleRemoveDestination(
+                                        day.id,
+                                        destination.id
+                                      )
+                                    }
+                                    canRemove={canEdit}
+                                  />
+                                </div>
+                              </li>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </ul>
+                    )}
+                  </Droppable>
+                </DragDropContext>
+              ) : (
+                <ul className="space-y-3 mt-4">
+                  {day.destinations.map((destination) => (
+                    <li
+                      key={destination.id}
+                      className="destination-item flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-700 rounded-md shadow-md"
                     >
-                      {day.destinations.map((destination, index) => (
-                        <Draggable
-                          key={destination.id}
-                          draggableId={String(destination.id)}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <li
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className="destination-item flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-700 rounded-md shadow-md"
-                            >
-                              <div className="flex-1 destination-item">
-                                <DestinationItem
-                                  destination={destination}
-                                  onRemove={() =>
-                                    handleRemoveDestination(
-                                      day.id,
-                                      destination.id
-                                    )
-                                  }
-                                  canRemove={canEdit}
-                                />
-                              </div>
-                            </li>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
-                    </ul>
-                  )}
-                </Droppable>
-              </DragDropContext>
+                      <div className="flex-1 destination-item">
+                        <DestinationItem
+                          destination={destination}
+                          onRemove={() =>
+                            handleRemoveDestination(day.id, destination.id)
+                          }
+                          canRemove={canEdit}
+                        />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
 
               <div className="flex justify-center mt-6">
                 <button

@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DestinationsState, Location, Result } from "../../redux/type";
 
-// Initial state definition
 const initialState: DestinationsState = {
   id: 0,
   title: "",

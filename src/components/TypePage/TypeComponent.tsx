@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { deselectType, selectType, setSelectedTypes } from "./TypeSlice";
 
-// Define the type for TravelType
 export type TravelType = {
   label: string;
   image: string;

@@ -5,10 +5,10 @@ export const calculateDistance = (
   dest2: Destination
 ): number => {
   const R = 6371; // Radius of the Earth in kilometers
-  const lat1 = dest1.lat * (Math.PI / 180); // Convert degrees to radians
-  const lng1 = dest1.lng * (Math.PI / 180);
-  const lat2 = dest2.lat * (Math.PI / 180);
-  const lng2 = dest2.lng * (Math.PI / 180);
+  const lat1 = dest1.location.lat * (Math.PI / 180); // Convert degrees to radians
+  const lng1 = dest1.location.lon * (Math.PI / 180);
+  const lat2 = dest2.location.lat * (Math.PI / 180);
+  const lng2 = dest2.location.lon * (Math.PI / 180);
 
   const dLat = lat2 - lat1;
   const dLng = lng2 - lng1;

@@ -144,7 +144,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
   };
 
   return (
-    <div className="mt-8 bg-gray-50 container dark:bg-gray-800 ">
+    <div className="mt-8 bg-gray-50 container dark:bg-gray-900 ">
       <h3 className="text-lg font-semibold text-secondary border-b border-gray-300 pb-4">
         Bình luận bài viết
       </h3>

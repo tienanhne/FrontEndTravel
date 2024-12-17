@@ -350,11 +350,11 @@ const TravelCard: React.FC<TravelCardProps> = ({
         />
         {permission === "OWNER" && (
           <button
-            className="absolute top-3 right-3 bg-orange-100 bg-opacity-60 text-red-500 p-2 rounded-full shadow-md hover:bg-red-500 hover:bg-opacity-80 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-300 transition-all duration-200 ease-in-out"
+            className="absolute top-3 right-3 bg-orange-100 bg-opacity-30 text-red-500 p-2 rounded-full shadow-md hover:bg-red-500 hover:bg-opacity-80 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-300 transition-all duration-200 ease-in-out"
             onClick={handleDeleteClick}
             aria-label="Delete card"
           >
-            <BsTrash size={20} className="text-red-500 hover:text-white" />
+            <BsTrash size={20} className="text-red-300 hover:text-white" />
           </button>
         )}
       </div>

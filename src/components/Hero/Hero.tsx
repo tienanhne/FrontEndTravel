@@ -195,8 +195,6 @@ const Hero = () => {
     }
   };
 
-
-
   return (
     <div className="bg-black/20 h-full">
       <Modal
@@ -302,6 +300,7 @@ const Hero = () => {
                   value={destitle}
                   autoComplete="off"
                   onChange={handleTitle}
+                  required
                   id="title"
                   placeholder="Đặt tên cho chuyến đi..."
                   className="w-full bg-gray-100 my-2 rounded-full p-2"
@@ -317,6 +316,7 @@ const Hero = () => {
                   value={destext}
                   autoComplete="off"
                   onChange={handleDesText}
+                  required
                   id="destination"
                   placeholder="Đồng Nai"
                   className="w-full bg-gray-100 my-2 rounded-full p-2"
@@ -343,6 +343,7 @@ const Hero = () => {
                   type="date"
                   name="departure"
                   id="departure"
+                  required
                   className="w-full bg-gray-100 my-2 rounded-full p-2"
                   value={departureDate}
                   onChange={(e) => setDepartureDate(e.target.value)}
@@ -365,6 +366,7 @@ const Hero = () => {
                   id="return"
                   className="w-full bg-gray-100 my-2 rounded-full p-2"
                   value={returnDate}
+                  required
                   onChange={(e) => setReturnDate(e.target.value)}
                   min={departureDate || today}
                 />

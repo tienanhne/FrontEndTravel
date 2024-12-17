@@ -26,9 +26,6 @@ const EditProfile = lazy(() => import("./pages/EditProfile"));
 const PlaceDetail = lazy(() => import("./components/Places/PlaceDetail"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 function App() {
-  useEffect(() => {
-    axiosSetup(); // Chỉ chạy một lần khi ứng dụng được khởi động
-  }, []);
 
   useEffect(() => {
     AOS.init({
@@ -37,7 +34,8 @@ function App() {
       easing: "ease-in-sine",
       delay: 100,
     });
-    AOS.refresh();
+    AOS.refresh();    
+    axiosSetup();
   }, []);
 
   return (
@@ -49,7 +47,6 @@ function App() {
             autoClose={5000}
             hideProgressBar={false}
           />
-
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />

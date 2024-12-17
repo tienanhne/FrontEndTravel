@@ -35,7 +35,7 @@ const WeatherSmartCard: React.FC<WeatherSmartCardProps> = ({
 }) => {
   const [weatherData, setWeatherData] = useState<any>(null);
   const [forecastData, setForecastData] = useState<any[]>([]);
-
+console.log(selectedDate)
   const isAfterSelectedDate = (forecastDate: Date, selectedDate: Date) => {
     return (
       forecastDate.getFullYear() > selectedDate.getFullYear() ||
@@ -56,8 +56,6 @@ const WeatherSmartCard: React.FC<WeatherSmartCardProps> = ({
       const filteredForecast = forecast.list.filter(
         (entry: any, index: number, self: any) => {
           const forecastDate = new Date(entry.dt * 1000);
-
-          // Lấy dự báo sau ngày đã chọn và loại bỏ các mục có cùng ngày
           return (
             isAfterSelectedDate(forecastDate, selectedDate) &&
             new Date(entry.dt * 1000).getDate() !==
