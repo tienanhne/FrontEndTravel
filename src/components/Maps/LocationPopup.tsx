@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import WeatherSmartCard from "../Weather/WeatherChart";
-import IMG4 from "../../assets/places/place4.jpg";
 import { toast } from "react-toastify";
 
 interface LocationPopupProps {
@@ -179,7 +178,7 @@ const LocationPopup: React.FC<LocationPopupProps> = ({
         {locationData?.display_name || "No name"}
       </h2>
       <img
-        src={locationData?.thumbnail?.url || IMG4}
+        src={locationData?.thumbnail?.url}
         alt={locationData?.display_name || "No name"}
         className="w-full h-32 object-cover rounded-lg shadow-md"
       />

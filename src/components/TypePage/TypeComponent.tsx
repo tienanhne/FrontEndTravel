@@ -42,6 +42,7 @@ export const TravelTypeSelection = () => {
       .then((response) => {
         const hobbies = response.data.result.hobbies || [];
         setUserHobbies(hobbies);
+        console.log(hobbies)
         dispatch(setSelectedTypes(hobbies));
       })
       .catch((error) => {

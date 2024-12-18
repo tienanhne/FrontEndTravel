@@ -170,6 +170,7 @@ const ModalAvatar: React.FC<{
 
   const handlePermissionChange = async (
     email: string,
+    name: string,
     newPermission: string
   ) => {
     const data = {
@@ -189,9 +190,6 @@ const ModalAvatar: React.FC<{
           },
         }
       );
-      toast.success(
-        `Quyền của ${email} đã được cập nhật thành ${newPermission}.`
-      );
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user.email === email
@@ -199,6 +197,7 @@ const ModalAvatar: React.FC<{
             : user
         )
       );
+      toast.success(`Quyền của đã được cập nhật cho ${name}.`);
     } catch (error) {
       toast.error(`Không thể cập nhật quyền cho ${email}. Vui lòng thử lại.`);
     }
@@ -233,7 +232,11 @@ const ModalAvatar: React.FC<{
                 <select
                   defaultValue={user.tripPermission.toLowerCase()}
                   onChange={(e) =>
-                    handlePermissionChange(user.email, e.target.value)
+                    handlePermissionChange(
+                      user.email,
+                      user.name,
+                      e.target.value
+                    )
                   }
                   className="border border-gray-300 dark:text-dark rounded-md p-2"
                   disabled={permisstion.toLowerCase() !== "owner"}
