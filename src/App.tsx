@@ -26,7 +26,6 @@ const EditProfile = lazy(() => import("./pages/EditProfile"));
 const PlaceDetail = lazy(() => import("./components/Places/PlaceDetail"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 function App() {
-
   useEffect(() => {
     AOS.init({
       offset: 100,
@@ -34,7 +33,7 @@ function App() {
       easing: "ease-in-sine",
       delay: 100,
     });
-    AOS.refresh();    
+    AOS.refresh();
     axiosSetup();
   }, []);
 
@@ -63,9 +62,9 @@ function App() {
               <Route
                 path="mappage/:id"
                 element={
-                  <ProtectedRoute>
-                    <MapPage />
-                  </ProtectedRoute>
+                  // <ProtectedRoute>
+                  <MapPage />
+                  // </ProtectedRoute>
                 }
               />
               <Route path="edit-profile" element={<EditProfile />} />

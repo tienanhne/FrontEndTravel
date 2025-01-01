@@ -103,7 +103,7 @@ const Hero = () => {
   };
 
   const handleSearchClick = () => {
-    if (!departureDate || !returnDate || !destext || numberOfDays === null) {
+    if (!departureDate || !returnDate || !destext || numberOfDays === null || !destitle) {
       toast.error("Vui lòng nhập đầy đủ thông tin!", {
         position: "top-right",
         autoClose: 5000,

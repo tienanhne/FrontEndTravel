@@ -11,7 +11,8 @@
   "compilerOptions": {
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true, // Tùy chọn này có thể giúp bỏ qua kiểm tra các kiểu của thư viện bên ngoài
-    "forceConsistentCasingInFileNames": true
+    "skipLibCheck": true, 
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx"
   }
 }
