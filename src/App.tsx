@@ -6,7 +6,7 @@ import { UserProvider } from "./context/UserContext";
 import "./index.css";
 import SimpleLayout from "./pages/SimpleLayout";
 import LoadingTriangle from "./components/Loading/LoadingTriangle";
-import ProtectedRoute from "./pages/ProtectedRoute";
+//import ProtectedRoute from "./pages/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { axiosSetup } from "./Api/axiosSetup";

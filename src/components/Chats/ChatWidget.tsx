@@ -44,17 +44,18 @@ const ChatWidget: React.FC = () => {
       const response = result.response;
       console.log(response);
 
-      setMessages([
-        ...messages,
-        { type: "user", message: input },
+      setMessages((prev) => [
+        ...prev,
+        { type: "user", message },
         { type: "bot", message: response.text() },
       ]);
-      setInput("")
+
+      setInput("");
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
       setIsTyping(false);
-      setInput("")
+      setInput("");
     }
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -109,7 +110,7 @@ const ChatWidget: React.FC = () => {
             ))}
             {isTyping && (
               <p className="text-sm text-gray-500 bg-gray-100 p-2 rounded-md">
-                Gemini is typing...
+                Chúng tôi đang nhập...
               </p>
             )}
           </div>
@@ -135,7 +136,6 @@ const ChatWidget: React.FC = () => {
               placeholder="Bạn muốn nói gì..."
               value={input}
               onKeyDown={handleKeyDown}
-
               onChange={(e) => setInput(e.target.value)}
               className="flex-1 border rounded-md p-3 focus:outline-none"
             />
