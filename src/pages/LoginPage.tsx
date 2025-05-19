@@ -24,21 +24,18 @@ const LoginPage: React.FC = () => {
       onSuccess: async (data) => {
         localStorage.setItem("accessToken", data.accessToken);
         Cookies.set("refreshToken", data.refreshToken, { expires: 7 });
-        const stringSession = sessionStorage.getItem("redirect");
+
         toast.success("Đăng nhập thành công");
-        if (stringSession) {
-          window.location.href = stringSession;
-        } else {
-          window.location.href = "/";
-        }
+
+        const redirectUrl = sessionStorage.getItem("redirect");
+        window.location.href = redirectUrl || "/";
       },
       onError: (error: any) => {
-        setErrorMessage(
-          error.message || "Đăng nhập thất bại, vui lòng thử lại"
-        );
+        setErrorMessage(error.message || "Đăng nhập thất bại, vui lòng thử lại.");
       },
     }
   );
+
 
   const handleLogin = (email: string, password: string) => {
     setErrorMessage(null);

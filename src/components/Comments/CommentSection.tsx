@@ -36,7 +36,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
     const fetchComments = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BASE_API}/blog/comments/${idPost}/blog`
+          `${import.meta.env.VITE_BASE_API}/blog/comments/${idPost}`
         );
         const commentsData = response.data.result;
         const groupedComments = groupCommentsByTreeId(commentsData);
@@ -157,7 +157,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
             <div className="flex items-start">
               {comment.user.avatar ? (
                 <img
-                  src={comment.user.avatar}
+                  src={comment.user.avatar || "https://static.vecteezy.com/system/resources/previews/021/548/095/non_2x/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg"}
                   alt={`${comment.user.userName}'s avatar`}
                   className="w-10 h-10 rounded-full mr-4"
                 />
@@ -204,7 +204,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
                       className="flex items-start mt-2 space-x-4"
                     >
                       <img
-                        src={reply.user.avatar}
+                        src={reply.user.avatar || "https://static.vecteezy.com/system/resources/previews/021/548/095/non_2x/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg"}
                         alt={`${reply.user.userName}'s avatar`}
                         className="w-8 h-8 rounded-full"
                       />
@@ -279,7 +279,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
               {user?.avatar ? (
                 <div className="w-10 h-10 mr-4 rounded-full overflow-hidden border-2 border-primary">
                   <img
-                    src={user.avatar}
+                    src={user.avatar || "https://static.vecteezy.com/system/resources/previews/021/548/095/non_2x/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg"}
                     alt="avatar"
                     className="w-full h-full object-cover"
                   />

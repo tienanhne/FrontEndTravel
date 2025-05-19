@@ -3,6 +3,9 @@ import { useSelector } from "react-redux";
 import { State } from "../../redux/store/store";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import parse from "html-react-parser";
 import axios from "axios";
 
 const WriteBlog: React.FC = () => {
@@ -16,7 +19,7 @@ const WriteBlog: React.FC = () => {
   const [categories, setCategories] = useState<string[]>([]);
   const [newCategory, setNewCategory] = useState<string>("");
   const [newTag, setNewTag] = useState<string>("");
-  const [selectedImage, setSelectedImage] = useState<File | null>(null); // New state for image
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -157,9 +160,34 @@ const WriteBlog: React.FC = () => {
       toast.error("Error creating blog. Please try again.");
     }
   };
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "color", "image"],
+      [{ "code-block": true }],
+      ["clean"],
+    ],
+  };
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "link",
+    "indent",
+    "image",
+    "code-block",
+    "color",
+  ];
   return (
-    <div className="dark:bg-slate-500 mt-5 py-10">
-      <section className="bg-white dark:bg-slate-500 container my-8">
+    <div className="flex justify-center gap-4 mt-5 py-10 container  dark:bg-slate-500">
+      <section className="w-full lg:w-1/2 bg-white dark:bg-slate-600 rounded-lg shadow p-6">
         <h1 className="mb-6 border-l-8 border-primary/50 dark:border-dark/50 py-2 pl-4 text-3xl dark:text-white font-extrabold text-gray-700">
           Viết về chuyến đi của{" "}
           <span className="text-secondary dark:text-dark">
@@ -291,7 +319,7 @@ const WriteBlog: React.FC = () => {
           <div className="flex items-center justify-center w-full">
             <label
               htmlFor="dropzone-file"
-              className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-700"
+              className="flex flex-col items-center justify-center w-full h-52 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-700"
             >
               {selectedImage ? (
                 <img
@@ -350,13 +378,21 @@ const WriteBlog: React.FC = () => {
           <label className="block mb-2 text-lg font-semibold text-gray-700 dark:text-white">
             Nội dung bài viết:
           </label>
-          <textarea
+          <ReactQuill
+            theme="snow"
+            value={content}
+            onChange={setContent}
+            modules={modules}
+            formats={formats}
+            className="w-full z-30 text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary transition duration-300"
+          />
+          {/* <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Viết bài tại đây..."
             className="w-full h-48 p-4 text-base text-gray-800 dark:text-gray-200 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/60 focus:border-primary transition duration-300 resize-none"
-          />
-          <p className="mt-2 text-sm text-gray-500 dark:text-secondary">
+          /> */}
+          <p className="mt-5 text-sm text-gray-500 dark:text-secondary">
             Hãy viết nội dung bài viết của bạn ở đây. Tối thiểu 200 từ.
           </p>
         </div>
@@ -367,6 +403,53 @@ const WriteBlog: React.FC = () => {
         >
           Đăng bài
         </button>
+      </section>
+      <section className="w-full lg:w-1/2 bg-white dark:bg-slate-600 rounded-lg shadow p-6">
+        <h1 className="mb-6 border-l-8 border-primary/50 dark:border-dark/50 py-2 pl-4 text-3xl dark:text-white font-extrabold text-gray-700">
+          Xem trước bài viết
+        </h1>
+
+        <div className="grid gap-4">
+          {/* Title */}
+          <div>
+            <h3 className="text-lg font-semibold mb-2 dark:text-white">
+              Tiêu đề
+            </h3>
+            <p className="text-xl font-bold">{title}</p>
+          </div>
+          {/* Categories */}
+          <div>
+            <h3 className="text-lg font-semibold mb-2 dark:text-white">
+              Danh mục
+            </h3>
+            <p>{selectedCategories.join(", ")}</p>
+          </div>
+          {/* Tags */}
+          <div>
+            <h3 className="text-lg font-semibold mb-2 dark:text-white">Thẻ</h3>
+            <p>{selectedTags.join(", ")}</p>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold mb-2 dark:text-white">
+              Ảnh bìa
+            </h3>
+            {selectedImage && (
+              <img
+                src={URL.createObjectURL(selectedImage)}
+                alt="Preview"
+                className="h-64 w-full object-cover rounded-lg"
+              />
+            )}
+          </div>
+
+          {/* Content */}
+          <div>
+            <h3 className="text-lg font-semibold mb-2 dark:text-white">
+              Nội dung
+            </h3>
+            {parse(content)}
+          </div>
+        </div>
       </section>
     </div>
   );

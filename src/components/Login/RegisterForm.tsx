@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { headers } from "../../Api/auth";
 import Cookies from "js-cookie";
+import apiClient from "../../Api/auth";
 interface RegisterFormProps {
   isLoading: boolean;
 }
@@ -23,7 +23,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ isLoading }) => {
           password
         }
         setSubmitting(!isSubmitting)
-        const response =  await axios.post(`${import.meta.env.VITE_BASE_API}/identity/auth/register`,JSON.stringify(data),{headers: headers});
+        const response =  await axios.post(`${import.meta.env.VITE_BASE_API}/identity/auth/register`,JSON.stringify(data),{headers: apiClient});
         if(response.status === 200){
           localStorage.setItem("accessToken", response.data.result.accessToken);
           Cookies.set("refreshToken", response.data.result.refreshToken, { expires: 7 });

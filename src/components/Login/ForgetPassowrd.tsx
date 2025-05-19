@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { headers } from "../../Api/auth";
+import apiClient from "../../Api/auth";
 
 /* eslint-disable @typescript-eslint/ban-types */
 const ForgetPassword: React.FC<{ onCancel: Function }> = ({ onCancel }) => {
@@ -14,7 +14,7 @@ const ForgetPassword: React.FC<{ onCancel: Function }> = ({ onCancel }) => {
       await axios.post(
         `${import.meta.env.VITE_BASE_API}/identity/auth/forgot-password`,
         JSON.stringify(data),
-        { headers: headers }
+        { headers: apiClient }
       );
     } catch (error) {
       console.log(error);

@@ -16,7 +16,7 @@ export interface Blog {
   userName: string;
   totalLike: number;
   status: string;
-  thumbnail: Thumbnail; 
+  thumbnail: Thumbnail;
 }
 export interface BlogsState {
   blogs: Blog[];

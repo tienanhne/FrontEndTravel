@@ -9,6 +9,7 @@ import Modal from "react-modal";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Location } from "../../redux/type";
+import { FaUserCircle } from "react-icons/fa";
 
 Modal.setAppElement("#root");
 
@@ -373,19 +374,31 @@ const TravelCard: React.FC<TravelCardProps> = ({
         </div>
         <div className="flex items-center justify-between border-t-2 pt-3">
           <div className="flex items-center space-x-2">
-            {users.map((user, index) => (
-              <img
-                key={index}
-                src={user.avatar || "https://via.placeholder.com/150"}
-                alt={user.email}
-                title={user.email}
-                className="h-8 w-8 rounded-full border border-gray-300 cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsModalOpen2(true);
-                }}
-              />
-            ))}
+            {users.map((user, index) =>
+              user.avatar ? (
+                <img
+                  key={index}
+                  src={user.avatar}
+                  alt={user.email}
+                  title={user.email}
+                  className="h-8 w-8 rounded-full border border-gray-300 cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsModalOpen2(true);
+                  }}
+                />
+              ) : (
+                <FaUserCircle
+                  key={index}
+                  title={user.email}
+                  className="h-8 w-8 text-primary cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsModalOpen2(true);
+                  }}
+                />
+              )
+            )}
             {users.length > 3 && (
               <span
                 onClick={(e) => {

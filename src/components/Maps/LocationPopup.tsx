@@ -132,7 +132,7 @@ const LocationPopup: React.FC<LocationPopupProps> = ({
         toast.success("Cập nhật nhận xét thành công");
       } else {
         response = await axios.post(
-          "${import.meta.env.VITE_BASE_API}/review/reviews",
+          `${import.meta.env.VITE_BASE_API}/review/reviews`,
           reviewData
         );
         toast.success("Nhận xét địa điểm thành công");

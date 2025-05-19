@@ -82,7 +82,7 @@ const Hero = () => {
         `${import.meta.env.VITE_BASE_API}/location/locations?q=${query}&limit=1`
       );
       const data = response.data.result;
-
+      console.log("địa ddiemr ",data)
       setSuggestions(data);
     } catch (error) {
       console.error("Error fetching suggestions:", error);

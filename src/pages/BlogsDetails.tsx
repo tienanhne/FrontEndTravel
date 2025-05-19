@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import BlogsComp from "../components/Blogs/BlogsComp";
 import CommentComponent from "../components/Comments/CommentSection";
+import parse from "html-react-parser";
 
 const BlogsDetails = () => {
   const location = useLocation();
@@ -30,7 +31,7 @@ const BlogsDetails = () => {
         </p>
 
         <h1 className="text-2xl font-semibold">{title}</h1>
-        <p>{content}</p>
+        {parse(content)}
 
         <div className="mt-4 flex items-center">
           <h3 className="font-semibold mr-2">Hastag:</h3>
