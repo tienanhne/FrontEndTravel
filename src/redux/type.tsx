@@ -69,6 +69,7 @@ export interface DestinationsState {
   results: Result[]; // New field for the results from the API
   totalTime: number;
   selectedDay: string | null;
+  isViewingMap: boolean;
 }
 
 // CityType for handling city details (if needed)

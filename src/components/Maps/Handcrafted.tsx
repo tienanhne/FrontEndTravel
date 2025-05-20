@@ -21,6 +21,7 @@ import {
   removeDestinationFromDay,
   setAPIResultData,
   setSelectedDay,
+  setViewingMap,
   updateResult,
 } from "./destinationsSlice";
 
@@ -206,9 +207,11 @@ const Handcrafted: React.FC = () => {
   const handleGoToMap = (date: string) => {
     dispatch(setSelectedDay(date));
     setSelectedDate(date);
+    dispatch(setViewingMap(true));
   };
 
   const handleBackToList = () => {
+    dispatch(setViewingMap(false));
     setSelectedDate(null);
   };
   const onDragEnd = async (result: DropResult) => {

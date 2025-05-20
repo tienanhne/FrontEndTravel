@@ -12,7 +12,8 @@ const initialState: DestinationsState = {
   location: null,
   results: [],
   totalTime: 0,
-  selectedDay: null
+  selectedDay: null,
+  isViewingMap: true,
 };
 
 const destinationsSlice = createSlice({
@@ -66,7 +67,6 @@ const destinationsSlice = createSlice({
       });
       return state;
     },
-   
 
     removeDestinationFromDay: (
       state,
@@ -84,23 +84,25 @@ const destinationsSlice = createSlice({
       }
     },
     addDay: (state, action: PayloadAction<Result>) => {
-      state.results.push(action.payload); 
+      state.results.push(action.payload);
     },
     removeDay: (state, action: PayloadAction<number>) => {
       state.results = state.results.filter((day) => day.id !== action.payload);
     },
     setTotalTime: (state, action: PayloadAction<number>) => {
-      state.totalTime += action.payload; 
+      state.totalTime += action.payload;
     },
 
     resetTotalTime: (state) => {
       state.totalTime = 0;
     },
-    
+
     setSelectedDay: (state, action: PayloadAction<string | null>) => {
       state.selectedDay = action.payload;
     },
-
+    setViewingMap: (state, action: PayloadAction<boolean>) => {
+      state.isViewingMap = action.payload;
+    },
   },
 });
 
@@ -114,6 +116,7 @@ export const {
   addDay,
   removeDay,
   setTotalTime,
+  setViewingMap 
 } = destinationsSlice.actions;
 
 export default destinationsSlice.reducer;

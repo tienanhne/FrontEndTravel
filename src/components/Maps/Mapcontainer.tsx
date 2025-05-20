@@ -15,7 +15,7 @@ import L from "leaflet";
 import RouteMap from "./RouteMap";
 import NewPlaceForm from "./NewPlaceForm";
 import LocationPopup from "./LocationPopup";
-import { setAPIResultData } from "./destinationsSlice";
+import { setAPIResultData, setViewingMap } from "./destinationsSlice";
 import PlaceSearchComponent from "./PlaceSearchComponent";
 
 const markerColors = [
@@ -89,6 +89,7 @@ const MapComponent: React.FC = () => {
         }
       }
     };
+    dispatch(setViewingMap(true));
 
     fetchItinerary();
   }, [tripId, dispatch]);

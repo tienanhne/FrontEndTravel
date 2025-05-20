@@ -23,6 +23,10 @@ const customIcon = L.icon({
 const RouteMap: React.FC<RouteMapProps> = ({ days }) => {
   const map = useMap();
   const [currentPosition, setCurrentPosition] = useState<L.LatLng | null>(null);
+  const isViewingMap = useSelector(
+    (state: RootState) => state.destinations.isViewingMap
+  );
+
   const selectedDay = useSelector(
     (state: RootState) => state.destinations.selectedDay
   );
@@ -45,50 +49,45 @@ const RouteMap: React.FC<RouteMapProps> = ({ days }) => {
   }, []);
 
   useEffect(() => {
-    if (currentPosition && selectedDay) {
-      const day = days.find((day) => day.day === selectedDay);
-      if (!day) return;
+    if (!currentPosition || !selectedDay || !isViewingMap) return;
 
-      const waypoints = [
-        currentPosition,
-        ...day.destinations.map((dest) =>
-          L.latLng(parseFloat(dest.location.lat), parseFloat(dest.location.lon))
-        ),
-      ];
+    const day = days.find((day) => day.day === selectedDay);
+    if (!day) return;
 
-      if (!L.Routing) {
-        console.error("Leaflet Routing Machine is not available");
-        return;
-      }
+    const waypoints = [
+      currentPosition,
+      ...day.destinations.map((dest) =>
+        L.latLng(parseFloat(dest.location.lat), parseFloat(dest.location.lon))
+      ),
+    ];
 
-      const plan = L.Routing.plan(waypoints, {
-        createMarker: (i, waypoint) => {
-          if (i === 0) {
-            return L.marker(waypoint.latLng, {
-              icon: customIcon,
-            }).bindPopup("Vị trí của bạn");
-          }
-          return null;
-        },
-      });
+    const plan = L.Routing.plan(waypoints, {
+      createMarker: (i, waypoint) => {
+        if (i === 0) {
+          return L.marker(waypoint.latLng, { icon: customIcon }).bindPopup(
+            "Vị trí của bạn"
+          );
+        }
+        return null;
+      },
+    });
 
-      const routingControl = L.Routing.control({
-        waypoints: waypoints,
-        routeWhileDragging: true,
-        plan: plan,
-        lineOptions: {
-          styles: [{ color: "blue", opacity: 0.6, weight: 4 }],
-        },
-        addWaypoints: false,
-        fitSelectedRoutes: false,
-        show: false,
-      }).addTo(map);
+    const routingControl = L.Routing.control({
+      waypoints,
+      routeWhileDragging: true,
+      plan,
+      lineOptions: {
+        styles: [{ color: "blue", opacity: 0.6, weight: 4 }],
+      },
+      addWaypoints: false,
+      fitSelectedRoutes: false,
+      show: false,
+    }).addTo(map);
 
-      return () => {
-        map.removeControl(routingControl);
-      };
-    }
-  }, [days, map, currentPosition, selectedDay]);
+    return () => {
+      map.removeControl(routingControl);
+    };
+  }, [days, map, currentPosition, selectedDay, isViewingMap]);
 
   return null;
 };
