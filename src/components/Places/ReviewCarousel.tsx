@@ -51,7 +51,7 @@ const ReviewCarousel: React.FC<ReviewCarouselProps> = ({ locationId }) => {
   }, [locationId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="mt-3 text-md">Chưa có đánh giá</div>;
   }
 
   if (error) {
