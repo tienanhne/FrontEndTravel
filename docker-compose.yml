@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  travel-smart-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Assuming Vite uses port 3000 in development
+   
+    

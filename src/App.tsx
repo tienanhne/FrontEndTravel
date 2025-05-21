@@ -26,6 +26,7 @@ const EditProfile = lazy(() => import("./pages/EditProfile"));
 const PlaceDetail = lazy(() => import("./components/Places/PlaceDetail"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
 function App() {
+  
   useEffect(() => {
     AOS.init({
       offset: 100,

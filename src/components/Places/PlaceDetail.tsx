@@ -1,7 +1,16 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { IoLocationSharp } from "react-icons/io5";
 import ReviewCarousel from "./ReviewCarousel";
-
+import React, { useEffect } from "react";
+import parse from 'html-react-parser';
+type Introduce = {
+  title: string;
+  content: string;
+  collections: {
+    id: number;
+    url: string;
+  }[];
+}
 const PlaceDetail = () => {
   const locationState = useLocation().state as {
     id: number;
@@ -12,9 +21,28 @@ const PlaceDetail = () => {
     type: string;
     rating: number;
   };
-
+const {id: locationId} = useParams();
   const { id, img, title, description, location, type, rating } = locationState;
   console.log(locationState);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [introduce, setIntroduce] = React.useState<Introduce | null>(null);
+  useEffect(() => {
+    const fetchIntroduce = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BASE_API}/location/introduces/${locationId}/location`
+        );
+        const data = await response.json();
+        setIntroduce(data.result);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching introduce:", error);
+      }
+    };
+
+    fetchIntroduce();
+
+  }, []);
   return (
     <div className="pt-16 dark:bg-gray-900 dark:text-white">
       <div
@@ -29,9 +57,18 @@ const PlaceDetail = () => {
             <IoLocationSharp className="text-xl" />
             <span>{location}</span>
           </div>
-          <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
-            {description}
-          </p>
+          {introduce && <div className='flex justify-center items-center py-4'>
+                    <div className='w-[80%] dark:bg-black dark:text-white bg-white shadow-lg rounded-lg p-4'>
+                        <h2 className='text-2xl font-bold mb-4'>{introduce.title}</h2>
+                        <div className='text-gray-700 mb-4'>
+                            {parse(introduce.content)}
+                        <div className='flex  items-center gap-4'>
+                             {introduce.collections && introduce.collections.length > 0  && introduce.collections.map((item: any) => (   <img src={item.url} alt="Location" className='w-[300px] h-[200px] rounded-lg mt-4' />))}
+                        </div>
+                        
+                    </div>
+                </div>
+                </div>}
 
           <div className="flex items-center justify-between border-t pt-4">
             <div className="flex items-center space-x-2">
