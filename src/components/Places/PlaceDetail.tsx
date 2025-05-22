@@ -66,26 +66,28 @@ const PlaceDetail = () => {
   // };
 
   return (
-    <div className="pt-16 bg-gradient-to-b from-blue-100 via-white to-yellow-50 text-gray-800">
+    <div className="pt-16 bg-gradient-to-b from-blue-100 via-white to-yellow-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-800 dark:text-gray-100">
       <div
         className="h-64 bg-cover object-cover bg-center"
         style={{ backgroundImage: `url(${img})` }}
       />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <h1 className="text-4xl font-bold mb-2 text-blue-900">{title}</h1>
+        <h1 className="text-4xl font-bold mb-2 text-blue-900 dark:text-yellow-400">
+          {title}
+        </h1>
 
-        <div className="flex items-center text-gray-600 mb-4">
+        <div className="flex items-center text-gray-600 dark:text-gray-300 mb-4">
           <IoLocationSharp className="text-xl text-blue-500 mr-1" />
           <span className="text-md">{location}</span>
         </div>
 
         {/* Introduce Section */}
         {introduce && (
-          <div className="bg-white p-6 rounded-lg shadow-lg mb-8">
-            <h2 className="text-2xl font-semibold mb-3 text-blue-800">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
+            <h2 className="text-2xl font-semibold mb-3 text-blue-800 dark:text-yellow-400">
               {introduce.title}
             </h2>
-            <div className="text-gray-700 leading-relaxed space-y-4">
+            <div className="text-gray-700 dark:text-gray-200 leading-relaxed space-y-4">
               {parse(introduce.content)}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
                 {introduce.collections.map((item) => (
@@ -102,10 +104,12 @@ const PlaceDetail = () => {
         )}
 
         {/* Type & Rating */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-t border-gray-200 pt-4 mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-t border-gray-200 dark:border-gray-600 pt-4 mb-8">
           <div className="text-lg font-medium">
-            <span className="text-gray-600">Loại địa điểm: </span>
-            <span className="text-blue-600">{type}</span>
+            <span className="text-gray-600 dark:text-gray-300">
+              Loại địa điểm:{" "}
+            </span>
+            <span className="text-blue-600 dark:text-yellow-300">{type}</span>
           </div>
 
           <div className="flex items-center mt-2 sm:mt-0">
@@ -120,7 +124,9 @@ const PlaceDetail = () => {
                 <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
               </svg>
             ))}
-            <span className="ml-2 text-gray-600">({rating}/5)</span>
+            <span className="ml-2 text-gray-600 dark:text-gray-300">
+              ({rating}/5)
+            </span>
           </div>
         </div>
 

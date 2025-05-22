@@ -16,6 +16,27 @@ interface PlaceData {
   starRate: number;
 }
 
+const mapPlaceTypeToVietnamese = (type: string): string => {
+  const typeMap: { [key: string]: string } = {
+    TOURIST_ATTRACTION: "Địa điểm du lịch",
+    RESTAURANT: "Nhà hàng",
+    SHOPPING: "Khu mua sắm",
+    PARK: "Công viên",
+    CULTURAL_SITE: "Di tích văn hóa",
+    ACCOMMODATION: "Nơi lưu trú",
+    ENTERTAINMENT: "Giải trí",
+    TRANSPORT_HUB: "Trạm trung chuyển",
+    EVENT: "Sự kiện",
+    ADVENTURE: "Phiêu lưu",
+    HEALTH_WELLNESS: "Sức khỏe & Thư giãn",
+    EDUCATIONAL: "Giáo dục",
+    FUNCTIONAL: "Tiện ích",
+    ADMINISTRATIVE: "Hành chính",
+  };
+
+  return typeMap[type] || "Không xác định";
+};
+
 const Places = () => {
   const [placesData, setPlacesData] = useState<PlaceData[]>([]);
   const [loading, setLoading] = useState(false);
@@ -72,9 +93,9 @@ const Places = () => {
               img={place.thumbnail?.url || "path_to_default_image.jpg"}
               title={place.name}
               location={place.address.city || "Unknown location"}
-              description="lorem ipsum dolor sit amet consectetur adipisicing elit."
+              description="Nhấn vào thẻ này để xem thêm thông tin chi tiết về địa điểm, hình ảnh, đánh giá và các hoạt động nổi bật tại đây."
               rating={place.starRate}
-              type={place.type}
+              type={mapPlaceTypeToVietnamese(place.type)}
             />
           ))}
         </div>

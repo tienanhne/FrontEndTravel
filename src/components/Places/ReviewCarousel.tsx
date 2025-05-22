@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Slider from "react-slick";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaUserCircle } from "react-icons/fa";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -32,7 +32,9 @@ const ReviewCarousel: React.FC<ReviewCarouselProps> = ({ locationId }) => {
 
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BASE_API}/review/reviews/${locationId}/location?page=1&limit=12`,
+          `${
+            import.meta.env.VITE_BASE_API
+          }/review/reviews/${locationId}/location?page=1&limit=12`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -91,7 +93,7 @@ const ReviewCarousel: React.FC<ReviewCarouselProps> = ({ locationId }) => {
         <div className="text-center text-gray-600 dark:text-gray-300">
           Không có đánh giá nào
         </div>
-      ) : (
+      ) : reviews.length >= 3 ? (
         <Slider {...settings}>
           {reviews.map((review) => (
             <div key={review.id} className="p-4">
@@ -123,6 +125,42 @@ const ReviewCarousel: React.FC<ReviewCarouselProps> = ({ locationId }) => {
             </div>
           ))}
         </Slider>
+      ) : (
+        <div className="flex gap-5">
+          {reviews.map((review) => (
+            <div key={review.id} className="p-4">
+              <div className="bg-white rounded-lg w-72 shadow-lg p-4 dark:bg-gray-800">
+                <div className="flex items-center mb-4">
+                  {!review.user.avatar ? (
+                    <FaUserCircle className="w-10 text-secondary h-10 rounded-full object-cover" />
+                  ) : (
+                    <img
+                      src={review.user.avatar}
+                      alt={review.user.userName}
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                  )}
+                  <div className="ml-3">
+                    <p className="font-medium dark:text-white">
+                      {review.user.userName}
+                    </p>
+                    <div className="flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <FaStar
+                          key={i}
+                          color={i < review.starRate ? "#FFD700" : "#E5E7EB"}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300">
+                  {review.content}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

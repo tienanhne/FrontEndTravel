@@ -131,7 +131,7 @@ const fetchUsers = async (tripId: number): Promise<User[]> => {
     return response.data.result.map((user: any) => ({
       email: user.email,
       tripPermission: user.tripPermission,
-      avatar: user.avatar || "https://via.placeholder.com/150",
+      avatar: user.avatar,
       name: user.name || "Người bạn",
     }));
   } catch (error) {
@@ -223,11 +223,15 @@ const ModalAvatar: React.FC<{
             {users.map((user, index) => (
               <li key={index} className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <img
-                    src={user.avatar || "https://via.placeholder.com/150"}
-                    alt={user.email}
-                    className="h-10 w-10 rounded-full border border-gray-300"
-                  />
+                  {!user.avatar ? (
+                    <FaUserCircle className="h-10 w-10 rounded-full border border-gray-300" />
+                  ) : (
+                    <img
+                      src={user.avatar}
+                      alt={user.name}
+                      className="h-10 w-10 rounded-full border border-gray-300"
+                    />
+                  )}
                   <span>{user.name}</span>
                 </div>
                 <select

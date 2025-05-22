@@ -117,6 +117,11 @@ const Handcrafted: React.FC = () => {
     const accessToken = localStorage.getItem("accessToken");
 
     try {
+      console.log('====================================');
+      console.log(locationId);
+      console.log('====================================');
+      console.log(dayId);
+      
       const response = await axios.post(
         `${import.meta.env.VITE_BASE_API}/trip/itineraries/${dayId}`,
         { locationId },

@@ -56,10 +56,15 @@ const MapComponent: React.FC = () => {
 
   // Lấy trip từ Redux state
   const trip = useSelector((state: RootState) => state.destinations);
+  const tripPermission = useSelector(
+    (state: RootState) => state.destinations.permission
+  );
+  const canEdit = tripPermission === "OWNER" || tripPermission === "EDIT";
+
   const tripId = trip?.id;
   const results = useSelector((state: RootState) => state.destinations.results);
   const [clickedPlaceName, setClickedPlaceName] = useState<string | null>(null);
-  const [selectedPopup, setSelectedPopup] = useState<number | null>(null); // Allow `number` or `null` as the type
+  const [selectedPopup, setSelectedPopup] = useState<number | null>(null); 
   useEffect(() => {
     const fetchItinerary = async () => {
       if (tripId) {
@@ -167,7 +172,11 @@ const MapComponent: React.FC = () => {
                 >
                   <Popup className="w-[340px]">
                     {selectedPopup === destination.id ? (
-                      <PlaceSearchComponent lat={lat} lng={lon} id={destination.id} />
+                      <PlaceSearchComponent
+                        lat={lat}
+                        lng={lon}
+                        id={destination.id}
+                      />
                     ) : (
                       <LocationPopup
                         lat={lat}
@@ -175,20 +184,23 @@ const MapComponent: React.FC = () => {
                         selectedDate={day.day.toString()}
                       />
                     )}
-                    <button
-                      onClick={() =>
-                        setSelectedPopup(
-                          selectedPopup === destination.id
-                            ? null
-                            : destination.id
-                        )
-                      }
-                      className="text-teal-600 mt-2 underline"
-                    >
-                      {selectedPopup === destination.id
-                        ? "Xem thông tin địa điểm"
-                        : "Tìm kiếm các địa điểm lân cận"}
-                    </button>
+
+                    {canEdit && (
+                      <button
+                        onClick={() =>
+                          setSelectedPopup(
+                            selectedPopup === destination.id
+                              ? null
+                              : destination.id
+                          )
+                        }
+                        className="text-teal-600 mt-2 underline"
+                      >
+                        {selectedPopup === destination.id
+                          ? "Xem thông tin địa điểm"
+                          : "Tìm kiếm các địa điểm lân cận"}
+                      </button>
+                    )}
                   </Popup>
                 </Marker>
               );
