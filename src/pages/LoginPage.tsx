@@ -11,6 +11,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import { LoginInput } from "../redux/type";
 import { login } from "../Api/auth";
 import { toast } from "react-toastify";
+import { trackingPlaces } from "../components/Login/TrackingPlaces";
 
 const LoginPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -25,17 +26,32 @@ const LoginPage: React.FC = () => {
         localStorage.setItem("accessToken", data.accessToken);
         Cookies.set("refreshToken", data.refreshToken, { expires: 7 });
 
+        // Lấy mảng id địa điểm đã lưu trong localStorage
+        const clickedPlaces = localStorage.getItem("clickedPlaceIds");
+        if (clickedPlaces) {
+          try {
+            const place_id: number[] = JSON.parse(clickedPlaces);
+            if (place_id.length > 0) {
+              await trackingPlaces(place_id);
+            }
+            localStorage.removeItem("clickedPlaceIds"); 
+          } catch (error) {
+            console.error("Gửi dữ liệu checkin thất bại", error);
+          }
+        }
+
         toast.success("Đăng nhập thành công");
 
         const redirectUrl = sessionStorage.getItem("redirect");
         window.location.href = redirectUrl || "/";
       },
       onError: (error: any) => {
-        setErrorMessage(error.message || "Đăng nhập thất bại, vui lòng thử lại.");
+        setErrorMessage(
+          error.message || "Đăng nhập thất bại, vui lòng thử lại."
+        );
       },
     }
   );
-
 
   const handleLogin = (email: string, password: string) => {
     setErrorMessage(null);
@@ -67,7 +83,11 @@ const LoginPage: React.FC = () => {
             <h2 className="text-2xl font-bold text-center">
               {isLogin ? "Đăng Nhập" : "Đăng Ký"}
             </h2>
-            <div className={`relative w-full ${isLogin ? `h-80` : `h-[400px]`} overflow-hidden`}>
+            <div
+              className={`relative w-full ${
+                isLogin ? `h-80` : `h-[400px]`
+              } overflow-hidden`}
+            >
               <div
                 className="absolute inset-0 w-full h-full flex transition-transform duration-500 transform"
                 style={{

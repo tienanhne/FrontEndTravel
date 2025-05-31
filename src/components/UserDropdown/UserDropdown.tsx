@@ -41,7 +41,6 @@ export const fetchUserProfile = async (dispatch: Dispatch<UnknownAction>) => {
   }
 };
 
-
 const UserDropdown: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { account } = useSelector((state: State) => state.user);
@@ -79,7 +78,7 @@ const UserDropdown: React.FC = () => {
 
       localStorage.removeItem("accessToken");
       Cookies.remove("refreshToken");
-   //   window.location.href = "/";
+      window.location.href = "/";
     } catch (error) {
       console.log(error);
     }

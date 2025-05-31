@@ -41,7 +41,6 @@ export const axiosSetup = () => {
         if (!refreshToken) {
           // Nếu không có refreshToken, chuyển hướng đến đăng nhập
           localStorage.removeItem("accessToken");
-          window.location.href = "/login"; // Điều chỉnh URL nếu cần
           return Promise.reject(error);
         }
 

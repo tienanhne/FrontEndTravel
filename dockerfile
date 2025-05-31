@@ -17,13 +17,13 @@ CMD ["npm", "run", "dev"]
 
 
 # Use an official Node.js runtime as the base image
-# FROM node:18-alpine as build
+FROM node:18-alpine as build
 
 # # Set the working directory
-# WORKDIR /app
+WORKDIR /app
 
 # # Copy package.json and package-lock.json
-# COPY package*.json ./
+COPY package*.json ./
 
 # # Install dependencies
 # RUN npm install
@@ -35,14 +35,14 @@ CMD ["npm", "run", "dev"]
 # RUN npm run build
 
 # # Use a lightweight web server to serve the built files
-# FROM nginx:stable-alpine
+FROM nginx:stable-alpine
 
 # # Copy the built files to the nginx HTML directory
-# COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist /usr/share/nginx/html
 
 # # Expose the port
-# EXPOSE 80
+EXPOSE 80
 
 # # Start nginx
-# CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
 

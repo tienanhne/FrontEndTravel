@@ -44,5 +44,5 @@ export const useDestinationSearch = () => {
     []
   );
 
-  return { searchResults, error, debouncedFetchResults };
+  return { searchResults, setSearchResults, error, debouncedFetchResults };
 };

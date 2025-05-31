@@ -14,6 +14,7 @@ const initialState: DestinationsState = {
   totalTime: 0,
   selectedDay: null,
   isViewingMap: true,
+  desText: "",
 };
 
 const destinationsSlice = createSlice({
@@ -103,6 +104,9 @@ const destinationsSlice = createSlice({
     setViewingMap: (state, action: PayloadAction<boolean>) => {
       state.isViewingMap = action.payload;
     },
+    setDesText: (state, action: PayloadAction<string>) => {
+      state.desText = action.payload;
+    },
   },
 });
 
@@ -116,7 +120,8 @@ export const {
   addDay,
   removeDay,
   setTotalTime,
-  setViewingMap 
+  setViewingMap,
+  setDesText,
 } = destinationsSlice.actions;
 
 export default destinationsSlice.reducer;

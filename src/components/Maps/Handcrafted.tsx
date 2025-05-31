@@ -27,13 +27,9 @@ import {
 
 const reorder = (list: Destination[], startId: number, endId: number) => {
   const result = Array.from(list);
-  console.log(list);
-
-  console.log(result);
   const startIndex = result.findIndex((item) => item.id === startId);
   const endIndex = result.findIndex((item) => item.id === endId);
   const [removed] = result.splice(startIndex, 1);
-  console.log(removed);
   result.splice(endIndex, 0, removed);
 
   return result;

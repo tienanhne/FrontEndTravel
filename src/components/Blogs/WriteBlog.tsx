@@ -109,7 +109,7 @@ const WriteBlog: React.FC = () => {
           },
         }
       );
-
+      console.log("upload image", response)
       const imageId = response.data.result.id;
       return imageId;
     } catch (error) {
@@ -186,7 +186,7 @@ const WriteBlog: React.FC = () => {
     "color",
   ];
   return (
-    <div className="flex justify-center gap-4 mt-5 py-10 container  dark:bg-slate-500">
+    <div className="flex flex-col lg:flex-row justify-center gap-4 mt-5 py-10 container dark:bg-slate-500">
       <section className="w-full lg:w-1/2 bg-white dark:bg-slate-600 rounded-lg shadow p-6">
         <h1 className="mb-6 border-l-8 border-primary/50 dark:border-dark/50 py-2 pl-4 text-3xl dark:text-white font-extrabold text-gray-700">
           Viết về chuyến đi của{" "}
@@ -325,7 +325,7 @@ const WriteBlog: React.FC = () => {
                 <img
                   src={URL.createObjectURL(selectedImage)}
                   alt="Preview"
-                  className="h-full w-full object-cover rounded-lg"
+                  className="w-full h-full object-contain rounded-lg"
                 />
               ) : (
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -404,7 +404,7 @@ const WriteBlog: React.FC = () => {
           Đăng bài
         </button>
       </section>
-      <section className="w-full lg:w-1/2 bg-white dark:bg-slate-600 rounded-lg shadow p-6">
+      <section className="w-full lg:w-1/2 bg-white dark:bg-slate-600 rounded-lg shadow p-6 overflow-x-auto">
         <h1 className="mb-6 border-l-8 border-primary/50 dark:border-dark/50 py-2 pl-4 text-3xl dark:text-white font-extrabold text-gray-700">
           Xem trước bài viết
         </h1>

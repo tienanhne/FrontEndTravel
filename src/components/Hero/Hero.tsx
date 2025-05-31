@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { setDestinationDetails } from "../Maps/destinationsSlice";
+import { setDesText, setDestinationDetails } from "../Maps/destinationsSlice";
 import Modal from "react-modal"; // Import react-modal
 import { TravelTypeSelection } from "../TypePage/TypeComponent";
 import { useSelector } from "react-redux";
@@ -21,7 +21,6 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
     border: "none",
     background: "transparent",
-
   },
 };
 
@@ -33,7 +32,6 @@ const Hero = () => {
   const [numberOfDays, setNumberOfDays] = useState<number | null>(null);
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [destext, setDesText] = useState("");
   const [destitle, setDesTitle] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTypeModalOpen, setIsTypeModalOpen] = useState(false);
@@ -41,9 +39,12 @@ const Hero = () => {
   const dispatch = useDispatch();
   const today = new Date().toISOString().split("T")[0];
   const navigate = useNavigate();
+  const [nameText, setNameText] = useState("");
+  const destext = useSelector((state: RootState) => state.destinations.desText);
 
   const handleDesText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDesText(e.target.value);
+    dispatch(setDesText(e.target.value));
+    setNameText(e.target.value);
     setShowSuggestions(true);
   };
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +83,6 @@ const Hero = () => {
         `${import.meta.env.VITE_BASE_API}/location/locations?q=${query}&limit=1`
       );
       const data = response.data.result;
-      console.log("địa ddiemr ",data)
       setSuggestions(data);
     } catch (error) {
       console.error("Error fetching suggestions:", error);
@@ -98,12 +98,19 @@ const Hero = () => {
   }, [destext]);
 
   const handleSuggestionClick = (city: any) => {
-    setDesText(city.address.city);
+    dispatch(setDesText(city.address.city));
+    setNameText(city.address.city);
     setShowSuggestions(false);
   };
 
   const handleSearchClick = () => {
-    if (!departureDate || !returnDate || !destext || numberOfDays === null || !destitle) {
+    if (
+      !departureDate ||
+      !returnDate ||
+      !destext ||
+      numberOfDays === null ||
+      !destitle
+    ) {
       toast.error("Vui lòng nhập đầy đủ thông tin!", {
         position: "top-right",
         autoClose: 5000,
@@ -144,6 +151,7 @@ const Hero = () => {
           },
         }
       );
+        console.log("handleCustomTrip", response);
 
       if (response.status === 200) {
         const tripResult = response.data.result;
@@ -185,6 +193,7 @@ const Hero = () => {
           },
         }
       );
+        console.log("tripResult", response);
 
       if (response.status === 200) {
         const tripResult = response.data.result;
@@ -234,7 +243,7 @@ const Hero = () => {
         style={customStyles}
         overlayClassName="modal-overlay bg-black bg-opacity-50 fixed inset-0 z-50"
       >
-        <div className="p-8 dark:bg-slate-700 w-[800px] rounded-lg shadow-lg transition-transform transform scale-105">
+        <div className="p-8 dark:bg-slate-700 w-[800px] bg-white rounded-lg shadow-lg transition-transform transform scale-105">
           <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">
             Chọn các loại địa điểm
           </h2>
@@ -316,7 +325,7 @@ const Hero = () => {
                 <input
                   type="text"
                   name="destination"
-                  value={destext}
+                  value={nameText}
                   autoComplete="off"
                   onChange={handleDesText}
                   required

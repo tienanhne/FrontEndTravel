@@ -125,10 +125,17 @@ const MapComponent: React.FC = () => {
   const defaultPosition: L.LatLngExpression = [21.0285, 105.8542];
   const position: L.LatLngExpression = trip.location
     ? [parseFloat(trip.location.lat), parseFloat(trip.location.lon)]
-    : defaultPosition;
+    : [
+        results?.[0]?.destinations?.[0]?.location?.lat !== undefined
+          ? parseFloat(results[0].destinations[0].location.lat)
+          : defaultPosition[0],
+        results?.[0]?.destinations?.[0]?.location?.lon !== undefined
+          ? parseFloat(results[0].destinations[0].location.lon)
+          : defaultPosition[1],
+      ];
 
   return (
-    <MapContainer center={position} zoom={13} className="w-full h-full">
+    <MapContainer center={position} zoom={12} className="w-full h-full">
       <TileLayer
         url={osmProvider.maptiler.url}
         attribution={osmProvider.maptiler.attribution}

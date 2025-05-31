@@ -15,7 +15,10 @@ const MapSelector = ({
 }) => {
   const results = useSelector((state: RootState) => state.destinations.results);
   const trip = useSelector((state: RootState) => state.destinations);
+  const desText = useSelector((state: RootState) => state.destinations.desText);
+
   const [runJoyride, setRunJoyride] = useState<boolean>(false);
+  console.log("trip",trip)
 
   const [{ steps }] = useState({
     steps: [
@@ -86,7 +89,7 @@ const MapSelector = ({
           next: "Tiếp theo",
           skip: "Bỏ qua",
           back: "Quay lại",
-          open: "Hướng dẫn sự dụng tính năng",
+          open: "Hướng dẫn sử dụng tính năng",
         }}
         styles={{
           options: {
@@ -118,7 +121,7 @@ const MapSelector = ({
       <h2 className="text-xl font-bold mb-4 text-center text-primary">
         Lựa chọn cho chuyến đi:{" "}
         <strong className="text-secondary">
-          {trip.location?.address.city}
+          {trip.location?.address.city || desText}
           <span className="guide ml-4"></span>
         </strong>
       </h2>
