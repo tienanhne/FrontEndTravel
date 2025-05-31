@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { setDesText, setDestinationDetails } from "../Maps/destinationsSlice";
+import { setDestinationDetails, setDestText } from "../Maps/destinationsSlice";
 import Modal from "react-modal"; // Import react-modal
 import { TravelTypeSelection } from "../TypePage/TypeComponent";
 import { useSelector } from "react-redux";
@@ -39,11 +39,12 @@ const Hero = () => {
   const dispatch = useDispatch();
   const today = new Date().toISOString().split("T")[0];
   const navigate = useNavigate();
+  const destext = useSelector(
+    (state: RootState) => state.destinations.destText
+  );
   const [nameText, setNameText] = useState("");
-  const destext = useSelector((state: RootState) => state.destinations.desText);
-
   const handleDesText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setDesText(e.target.value));
+    dispatch(setDestText(e.target.value));
     setNameText(e.target.value);
     setShowSuggestions(true);
   };
@@ -98,8 +99,9 @@ const Hero = () => {
   }, [destext]);
 
   const handleSuggestionClick = (city: any) => {
-    dispatch(setDesText(city.address.city));
     setNameText(city.address.city);
+    dispatch(setDestText(city.address.city));
+
     setShowSuggestions(false);
   };
 
@@ -122,7 +124,7 @@ const Hero = () => {
 
   const handleCustomTrip = async () => {
     const selectedLocation = suggestions.find(
-      (city) => city.address.city === destext
+      (city) => city.address.city === nameText
     );
     if (!selectedLocation) {
       toast.error("Không tìm thấy địa điểm hợp lệ!", {
@@ -151,7 +153,7 @@ const Hero = () => {
           },
         }
       );
-        console.log("handleCustomTrip", response);
+      console.log("handleCustomTrip", response);
 
       if (response.status === 200) {
         const tripResult = response.data.result;
@@ -172,7 +174,7 @@ const Hero = () => {
     setIsLoading(true);
 
     const selectedLocation = suggestions.find(
-      (city) => city.address.city === destext
+      (city) => city.address.city === nameText
     );
     const tripData = {
       title: destitle,
@@ -193,7 +195,7 @@ const Hero = () => {
           },
         }
       );
-        console.log("tripResult", response);
+      console.log("tripResult", response);
 
       if (response.status === 200) {
         const tripResult = response.data.result;

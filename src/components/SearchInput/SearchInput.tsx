@@ -48,11 +48,8 @@ const SearchInput: React.FC<SearchInputProps> = ({
   // Reset input
   useEffect(() => {
     setQuery(value);
-    if(!focused){
-      setSearchResults([]);
-      setRecommendations([]);
-    }
-  }, [value, focused, setSearchResults, setRecommendations]);
+  
+  }, [value]);
 
   // Gọi API recommend khi focus nếu chưa có query
   const handleFocus = () => {

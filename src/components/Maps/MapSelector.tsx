@@ -15,8 +15,7 @@ const MapSelector = ({
 }) => {
   const results = useSelector((state: RootState) => state.destinations.results);
   const trip = useSelector((state: RootState) => state.destinations);
-  const desText = useSelector((state: RootState) => state.destinations.desText);
-
+  const destext = useSelector((state: RootState) => state.destinations.destText);
   const [runJoyride, setRunJoyride] = useState<boolean>(false);
   console.log("trip",trip)
 
@@ -121,7 +120,7 @@ const MapSelector = ({
       <h2 className="text-xl font-bold mb-4 text-center text-primary">
         Lựa chọn cho chuyến đi:{" "}
         <strong className="text-secondary">
-          {trip.location?.address.city || desText}
+          {trip.location?.address.city || destext || "Chưa có địa điểm"}
           <span className="guide ml-4"></span>
         </strong>
       </h2>

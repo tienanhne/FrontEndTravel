@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DestinationsState, Location, Result } from "../../redux/type";
+import { set } from "lodash";
 
 const initialState: DestinationsState = {
   id: 0,
@@ -14,7 +15,7 @@ const initialState: DestinationsState = {
   totalTime: 0,
   selectedDay: null,
   isViewingMap: true,
-  desText: "",
+  destText: "",
 };
 
 const destinationsSlice = createSlice({
@@ -104,9 +105,9 @@ const destinationsSlice = createSlice({
     setViewingMap: (state, action: PayloadAction<boolean>) => {
       state.isViewingMap = action.payload;
     },
-    setDesText: (state, action: PayloadAction<string>) => {
-      state.desText = action.payload;
-    },
+    setDestText: (state, action: PayloadAction<string>) => {
+      state.destText = action.payload;
+    }
   },
 });
 
@@ -121,7 +122,7 @@ export const {
   removeDay,
   setTotalTime,
   setViewingMap,
-  setDesText,
+  setDestText,
 } = destinationsSlice.actions;
 
 export default destinationsSlice.reducer;

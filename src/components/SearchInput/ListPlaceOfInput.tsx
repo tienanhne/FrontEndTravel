@@ -12,7 +12,6 @@ const ListPlaceOfInput: React.FC<ListPlaceOfInputProps> = ({
   isDestinationInResults,
   handleResultSelect,
 }) => {
-    console.log("list ",   resultDestination)
   return (
     <div>
       <ul className="top-full mt-2 w-full bg-white  dark:bg-gray-800 shadow-lg rounded-md z-10 max-h-40 overflow-auto relative">
@@ -24,11 +23,11 @@ const ListPlaceOfInput: React.FC<ListPlaceOfInputProps> = ({
               className={`p-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 overflow-hidden whitespace-nowrap text-ellipsis relative ${
                 isAdded ? "opacity-50 cursor-not-allowed" : ""
               }`}
-              aria-disabled={isAdded}
               onClick={() => {
                 if (isAdded) {
                   alert("Địa điểm này đã có trong lịch trình!");
                 } else {
+                    console.log("Selected result:", result);
                   handleResultSelect(result);
                 }
               }}

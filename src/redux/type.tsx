@@ -70,7 +70,7 @@ export interface DestinationsState {
   totalTime: number;
   selectedDay: string | null;
   isViewingMap: boolean;
-  desText: string;
+  destText: string;
 }
 
 // CityType for handling city details (if needed)

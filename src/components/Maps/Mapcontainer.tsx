@@ -126,13 +126,15 @@ const MapComponent: React.FC = () => {
   const position: L.LatLngExpression = trip.location
     ? [parseFloat(trip.location.lat), parseFloat(trip.location.lon)]
     : [
-        results?.[0]?.destinations?.[0]?.location?.lat !== undefined
-          ? parseFloat(results[0].destinations[0].location.lat)
+        results?.[0]?.destinations?.[1]?.location?.lat !== undefined
+          ? parseFloat(results[0].destinations[1].location.lat)
           : defaultPosition[0],
-        results?.[0]?.destinations?.[0]?.location?.lon !== undefined
-          ? parseFloat(results[0].destinations[0].location.lon)
+        results?.[0]?.destinations?.[1]?.location?.lon !== undefined
+          ? parseFloat(results[0].destinations[1].location.lon)
           : defaultPosition[1],
       ];
+
+
 
   return (
     <MapContainer center={position} zoom={12} className="w-full h-full">
