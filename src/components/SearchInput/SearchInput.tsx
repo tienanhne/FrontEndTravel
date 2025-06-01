@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import { useDestinationSearch } from "../../hooks/useDestinationSearch";
@@ -40,10 +41,9 @@ const SearchInput: React.FC<SearchInputProps> = ({
   // Trigger tìm kiếm
   useEffect(() => {
     if (query.length > 2) {
-      console.log("search input", searchResults);
       debouncedFetchResults(query);
     }
-  }, [query]);
+  }, [query,debouncedFetchResults]);
 
   // Reset input
   useEffect(() => {

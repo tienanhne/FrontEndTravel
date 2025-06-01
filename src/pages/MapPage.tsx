@@ -13,7 +13,7 @@ const MapPage = () => {
   };
 
   return (
-    <div className="relative last-skip flex flex-col md:flex-row overflow-y-auto no-scrollbar pt-[72px] h-screen">
+    <div className="relative last-skip flex flex-col md:flex-row overflow-hidden pt-[72px] h-screen">
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -33,7 +33,7 @@ const MapPage = () => {
       />
 
       {/* Phần bản đồ */}
-      <div className="w-full md:w-2/3 h-full ">
+      <div className="w-full md:w-2/3 h-full">
         <MapComponent />
       </div>
     </div>

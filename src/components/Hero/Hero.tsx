@@ -44,8 +44,8 @@ const Hero = () => {
   );
   const [nameText, setNameText] = useState("");
   const handleDesText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setDestText(e.target.value));
     setNameText(e.target.value);
+    dispatch(setDestText(e.target.value));
     setShowSuggestions(true);
   };
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {

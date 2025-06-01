@@ -64,7 +64,7 @@ const MapComponent: React.FC = () => {
   const tripId = trip?.id;
   const results = useSelector((state: RootState) => state.destinations.results);
   const [clickedPlaceName, setClickedPlaceName] = useState<string | null>(null);
-  const [selectedPopup, setSelectedPopup] = useState<number | null>(null); 
+  const [selectedPopup, setSelectedPopup] = useState<number | null>(null);
   useEffect(() => {
     const fetchItinerary = async () => {
       if (tripId) {
@@ -123,18 +123,13 @@ const MapComponent: React.FC = () => {
   };
 
   const defaultPosition: L.LatLngExpression = [21.0285, 105.8542];
-  const position: L.LatLngExpression = trip.location
-    ? [parseFloat(trip.location.lat), parseFloat(trip.location.lon)]
-    : [
-        results?.[1]?.destinations?.[0]?.location?.lat !== undefined
-          ? parseFloat(results[0].destinations[0].location.lat)
-          : defaultPosition[0],
-        results?.[1]?.destinations?.[1]?.location?.lon !== undefined
-          ? parseFloat(results[0].destinations[0].location.lon)
-          : defaultPosition[1],
-      ];
 
-
+  const position: L.LatLngExpression =
+    trip.location && trip.location.lat && trip.location.lon
+      ? [parseFloat(trip.location.lat), parseFloat(trip.location.lon)]
+      : results && results.length > 0 && results[0].destinations.length > 0
+      ? [parseFloat(trip.results[0].destinations[0].location.lat), parseFloat(trip.results[0].destinations[0].location.lon)]
+      : defaultPosition;
 
   return (
     <MapContainer center={position} zoom={12} className="w-full h-full">
