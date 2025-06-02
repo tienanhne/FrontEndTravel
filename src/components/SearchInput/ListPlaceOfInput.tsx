@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
+import imageMarker from "../../assets/marker.png";
 
 interface ListPlaceOfInputProps {
   resultDestination: any[];
@@ -27,7 +28,7 @@ const ListPlaceOfInput: React.FC<ListPlaceOfInputProps> = ({
                 if (isAdded) {
                   alert("Địa điểm này đã có trong lịch trình!");
                 } else {
-                    console.log("Selected result:", result);
+                  console.log("Selected result:", result);
                   handleResultSelect(result);
                 }
               }}
@@ -37,8 +38,11 @@ const ListPlaceOfInput: React.FC<ListPlaceOfInputProps> = ({
                   Đã có địa điểm này trong lịch trình
                 </div>
               )}
-              {result.display_name || "No name"}, {result.city || "Unknown"},{" "}
-              {result.state || "Unknown"}
+              <span className="inline-flex items-center gap-2 p-3">
+                <img src={imageMarker} alt="marker" />
+                {result.display_name || "No name"}, {result.city || "Unknown"},{" "}
+                {result.state || "Unknown"}
+              </span>
             </li>
           );
         })}

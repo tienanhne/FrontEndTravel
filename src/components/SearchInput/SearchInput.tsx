@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from "react";
-import { useDestinationSearch } from "../../hooks/useDestinationSearch";
-import { RootState } from "../../redux/store/store";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { useDestinationSearch } from "../../hooks/useDestinationSearch";
 import { useRecommendDestinations } from "./useRecommendDestinations";
+import { RootState } from "../../redux/store/store";
 import ListPlaceOfInput from "./ListPlaceOfInput";
 
 interface SearchInputProps {
@@ -22,87 +21,130 @@ const SearchInput: React.FC<SearchInputProps> = ({
 }) => {
   const [query, setQuery] = useState(value || "");
   const [focused, setFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const { searchResults, setSearchResults, error, debouncedFetchResults } =
+  const { searchResults, setSearchResults, debouncedFetchResults, error } =
     useDestinationSearch();
-  const { recommendations, setRecommendations, fetchRecommendations } = useRecommendDestinations();
+  const { recommendations, fetchRecommendations, setRecommendations } =
+    useRecommendDestinations();
   const results = useSelector((state: RootState) => state.destinations.results);
 
-  const isDestinationInResults = (result: any) => {
-    return results.some(
-      (destination: any) =>
-        destination.id === dayId &&
-        destination.destinations.some(
-          (d: any) => d.location.place_id === result.place_id
+  const isDestinationInResults = (result: any) =>
+    results.some(
+      (d: any) =>
+        d.id === dayId &&
+        d.destinations.some(
+          (dest: any) => dest.location.place_id === result.place_id
         )
     );
-  };
 
-  // Trigger tìm kiếm
+  const displayResults =
+    searchResults.length > 0 ? searchResults : recommendations;
+
   useEffect(() => {
     if (query.length > 2) {
       debouncedFetchResults(query);
     }
-  }, [query,debouncedFetchResults]);
+  }, [query, debouncedFetchResults]);
 
-  // Reset input
   useEffect(() => {
     setQuery(value);
-  
   }, [value]);
 
-  // Gọi API recommend khi focus nếu chưa có query
   const handleFocus = () => {
     setFocused(true);
-    if (query === "") {
-      // Lấy ngày đang focus theo dayId
-      const currentDay = results.find((day: any) => day.id === dayId);
-      if (currentDay && currentDay.destinations.length > 0) {
-        const last =
-          currentDay.destinations[currentDay.destinations.length - 1];
-        if (last) {
-          const lat = last.location.lat;
-          const lon = last.location.lon;
-          fetchRecommendations(lat, lon);
-        }
+    if (!query) {
+      const day = results.find((d: any) => d.id === dayId);
+      if (day?.destinations?.length) {
+        const last = day.destinations[day.destinations.length - 1];
+        fetchRecommendations(last.location.lat, last.location.lon);
       }
-      console.log("recommend", recommendations);
     }
   };
 
+  const handleBlur = () => {
+    setTimeout(() => setFocused(false), 150);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setQuery(val);
+    onChange(val);
+    if (val.length <= 2) {
+      setSearchResults([]);
+      setRecommendations([]);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Tab" || e.key === "ArrowRight") {
+      const match = displayResults.find((item: any) =>
+        item.display_name?.toLowerCase().startsWith(query.toLowerCase())
+      );
+      if (match) {
+        e.preventDefault();
+        setQuery(match.display_name);
+        onChange(match.display_name);
+      }
+    }
+  };
+
+  const suggestion =
+    query.length > 0
+      ? displayResults.find((item: any) =>
+          item.display_name?.toLowerCase().startsWith(query.toLowerCase())
+        )?.display_name
+      : "";
+
+  const autoCompleteTail =
+    suggestion && suggestion.length > query.length
+      ? suggestion.slice(query.length)
+      : "";
+
   const handleResultSelect = (result: any) => {
     onSelectResult(result, dayId);
-    console.log("selected result:", result);
     setQuery("");
     onChange("");
     setSearchResults([]);
-    setRecommendations([]); 
+    setRecommendations([]);
   };
 
-
-
   return (
-    <div>
-      <input
-        type="text"
-        value={query}
-        onFocus={handleFocus}
-        onBlur={() => setFocused(false)}
-        onChange={(e) => {
-          setQuery(e.target.value);
-          onChange(e.target.value);
-          setRecommendations([]); 
-        }}
-        placeholder="Thêm mới địa điểm"
-        className="w-full search-input bg-gray-100 mt-3 dark:text-primary rounded-full p-2"
-      />
-      {error && <div className="text-red-500 mt-2">{error}</div>}
-      {(recommendations.length > 0 || searchResults.length > 0) && (
-        <ListPlaceOfInput
-          resultDestination={searchResults.length > 0 ? searchResults : recommendations}
-          isDestinationInResults={isDestinationInResults}
-          handleResultSelect={handleResultSelect}
+    <div className="relative w-full mt-3">
+      <div className="relative">
+        {/* Suggest tail overlay */}
+        <div className="absolute inset-0 px-4 py-2 text-sm text-gray-400 pointer-events-none whitespace-nowrap overflow-hidden z-10 font-mono">
+          <span className="invisible">{query}</span>
+          <span className="opacity-50">{autoCompleteTail}</span>
+        </div>
+
+        {/* Input */}
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          placeholder="Thêm mới địa điểm..."
+          className="w-full font-mono bg-transparent text-black dark:text-white border border-gray-300 dark:border-gray-700 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 relative z-20"
+          autoComplete="off"
         />
+      </div>
+
+      {/* Error */}
+      {error && <div className="text-red-500 text-sm mt-1">{error}</div>}
+
+      {/* Results dropdown */}
+      {focused && displayResults.length > 0 && (
+        <div className="absolute z-30 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md mt-2 overflow-auto max-h-64">
+          <ListPlaceOfInput
+            resultDestination={displayResults}
+            isDestinationInResults={isDestinationInResults}
+            handleResultSelect={handleResultSelect}
+          />
+        </div>
       )}
     </div>
   );
