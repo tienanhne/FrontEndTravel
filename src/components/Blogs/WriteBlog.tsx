@@ -109,7 +109,7 @@ const WriteBlog: React.FC = () => {
           },
         }
       );
-      console.log("upload image", response)
+      console.log("upload image", response);
       const imageId = response.data.result.id;
       return imageId;
     } catch (error) {
@@ -404,52 +404,45 @@ const WriteBlog: React.FC = () => {
           Đăng bài
         </button>
       </section>
-      <section className="w-full lg:w-1/2 bg-white dark:bg-slate-600 rounded-lg shadow p-6 overflow-x-auto">
-        <h1 className="mb-6 border-l-8 border-primary/50 dark:border-dark/50 py-2 pl-4 text-3xl dark:text-white font-extrabold text-gray-700">
-          Xem trước bài viết
+      <section className="max-w-3xl mx-auto px-4 py-8 bg-white dark:bg-gray-900 rounded-xl shadow">
+        {/* Ảnh bìa */}
+        {selectedImage && (
+          <img
+            src={URL.createObjectURL(selectedImage)}
+            alt="Cover"
+            className="w-full h-80 object-cover rounded-lg mb-6"
+          />
+        )}
+
+        {/* Tiêu đề */}
+        <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
+          {title}
         </h1>
 
-        <div className="grid gap-4">
-          {/* Title */}
-          <div>
-            <h3 className="text-lg font-semibold mb-2 dark:text-white">
-              Tiêu đề
-            </h3>
-            <p className="text-xl font-bold">{title}</p>
-          </div>
-          {/* Categories */}
-          <div>
-            <h3 className="text-lg font-semibold mb-2 dark:text-white">
-              Danh mục
-            </h3>
-            <p>{selectedCategories.join(", ")}</p>
-          </div>
-          {/* Tags */}
-          <div>
-            <h3 className="text-lg font-semibold mb-2 dark:text-white">Thẻ</h3>
-            <p>{selectedTags.join(", ")}</p>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold mb-2 dark:text-white">
-              Ảnh bìa
-            </h3>
-            {selectedImage && (
-              <img
-                src={URL.createObjectURL(selectedImage)}
-                alt="Preview"
-                className="h-64 w-full object-cover rounded-lg"
-              />
-            )}
-          </div>
-
-          {/* Content */}
-          <div>
-            <h3 className="text-lg font-semibold mb-2 dark:text-white">
-              Nội dung
-            </h3>
-            {parse(content)}
-          </div>
+        {/* Danh mục & thẻ */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {selectedCategories.map((cat, idx) => (
+            <span
+              key={idx}
+              className="bg-blue-100 text-blue-800 dark:bg-blue-700 dark:text-white px-3 py-1 rounded-full text-sm font-medium"
+            >
+              {cat}
+            </span>
+          ))}
+          {selectedTags.map((tag, idx) => (
+            <span
+              key={idx}
+              className="bg-green-100 text-green-800 dark:bg-green-700 dark:text-white px-3 py-1 rounded-full text-sm font-medium"
+            >
+              #{tag}
+            </span>
+          ))}
         </div>
+
+        {/* Nội dung */}
+        <article className="prose prose-lg dark:prose-invert max-w-none">
+          {parse(content)}
+        </article>
       </section>
     </div>
   );

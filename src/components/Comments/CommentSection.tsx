@@ -16,11 +16,11 @@ interface Comment {
     avatar: string;
   };
   content: string;
-  replies?: Comment[]; // Nested replies
+  replies?: Comment[];
 }
 
 interface CommentComponentProps {
-  idPost: number; // Post ID to fetch comments for
+  idPost: number;
 }
 
 const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
@@ -50,7 +50,6 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
 
   const groupCommentsByTreeId = (comments: Comment[]) => {
     const grouped: { [key: string]: Comment[] } = {};
-
     comments.forEach((comment) => {
       if (!grouped[comment.treeId]) {
         grouped[comment.treeId] = [];
@@ -144,7 +143,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
   };
 
   return (
-    <div className="mt-8 bg-gray-50 container dark:bg-gray-900 ">
+    <div className="mt-8 from-blue-100 via-green-50 container to-yellow-50 dark:bg-gray-900 ">
       <h3 className="text-lg font-semibold text-secondary border-b border-gray-300 pb-4">
         Bình luận bài viết
       </h3>
@@ -157,7 +156,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
             <div className="flex items-start">
               {comment.user.avatar ? (
                 <img
-                  src={comment.user.avatar || "https://static.vecteezy.com/system/resources/previews/021/548/095/non_2x/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg"}
+                  src={comment.user.avatar}
                   alt={`${comment.user.userName}'s avatar`}
                   className="w-10 h-10 rounded-full mr-4"
                 />
@@ -181,7 +180,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
                           [comment.id]: e.target.value,
                         })
                       }
-                      className="border border-gray-300 rounded-lg p-2 flex-grow dark:bg-gray-700 dark:text-white mr-2"
+                      className="border border-gray-600 rounded-lg p-2 flex-grow dark:bg-gray-700 dark:text-white mr-2"
                     />
                     <button
                       onClick={() => handleSaveEdit(comment.id)}
@@ -196,7 +195,6 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
                   </p>
                 )}
 
-                {/* Reply Section */}
                 <div className="ml-12 mt-4">
                   {comment.replies?.map((reply) => (
                     <div
@@ -204,7 +202,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
                       className="flex items-start mt-2 space-x-4"
                     >
                       <img
-                        src={reply.user.avatar || "https://static.vecteezy.com/system/resources/previews/021/548/095/non_2x/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg"}
+                        src={reply.user.avatar}
                         alt={`${reply.user.userName}'s avatar`}
                         className="w-8 h-8 rounded-full"
                       />
@@ -220,13 +218,10 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
                   ))}
                 </div>
 
-                {/* Action buttons (Reply/Edit) */}
                 <div className="flex items-center mt-3 space-x-4">
                   <button
                     onClick={() =>
-                      setReplyingTo(
-                        replyingTo === comment.id ? null : comment.id
-                      )
+                      setReplyingTo(replyingTo === comment.id ? null : comment.id)
                     }
                     className="text-primary hover:underline"
                   >
@@ -248,9 +243,7 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
                         className="border border-gray-300 rounded-lg p-2 flex-grow dark:bg-gray-700 dark:text-white mr-2"
                       />
                       <button
-                        onClick={() =>
-                          handleAddReply(comment.id, comment.treeId)
-                        }
+                        onClick={() => handleAddReply(comment.id, comment.treeId)}
                         className="bg-primary text-white p-2 rounded-lg hover:bg-primary-dark transition duration-150"
                       >
                         <IoIosSend size={20} />
@@ -272,37 +265,33 @@ const CommentComponent: React.FC<CommentComponentProps> = ({ idPost }) => {
           </div>
         ))}
 
-        {/* Add new comment */}
-        <div className="flex items-center mt-6">
-          {user && (
-            <>
-              {user?.avatar ? (
-                <div className="w-10 h-10 mr-4 rounded-full overflow-hidden border-2 border-primary">
-                  <img
-                    src={user.avatar || "https://static.vecteezy.com/system/resources/previews/021/548/095/non_2x/default-profile-picture-avatar-user-avatar-icon-person-icon-head-icon-profile-picture-icons-default-anonymous-user-male-and-female-businessman-photo-placeholder-social-network-avatar-portrait-free-vector.jpg"}
-                    alt="avatar"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ) : (
-                <FaUserCircle size={50} className="mr-4" />
-              )}
-              <input
-                type="text"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="Thêm bình luận"
-                className="border border-gray-300 rounded-lg p-2 flex-grow dark:bg-gray-700 dark:text-white"
+        {/* Input new comment */}
+        {user && (
+          <div className="flex items-center mt-6">
+            {user.avatar ? (
+              <img
+                src={user.avatar}
+                alt="avatar"
+                className="w-10 h-10 rounded-full mr-4 border-2 border-primary"
               />
-              <button
-                onClick={handleAddComment}
-                className="ml-2 bg-primary text-white p-2 rounded-lg hover:bg-primary-dark transition duration-150"
-              >
-                <IoIosSend size={20} />
-              </button>
-            </>
-          )}
-        </div>
+            ) : (
+              <FaUserCircle size={40} className="text-primary mr-4" />
+            )}
+            <input
+              type="text"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Thêm bình luận"
+              className="border border-gray-600 rounded-lg p-2 flex-grow dark:bg-gray-700 dark:text-white mr-2"
+            />
+            <button
+              onClick={handleAddComment}
+              className="bg-primary text-white p-2 rounded-lg hover:bg-primary-dark transition duration-150"
+            >
+              <IoIosSend size={20} />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

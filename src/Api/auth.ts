@@ -3,10 +3,10 @@
 // import Cookies from "js-cookie";
 // import { LoginInput, LoginResponse } from "../redux/type";
 
-// export const headers = {
-//   Accept: "application/json",
-//   "Content-Type": "application/json",
-// };
+export const headers = {
+  Accept: "application/json",
+  "Content-Type": "application/json",
+};
 
 // export const login = async (
 //   loginInput: LoginInput

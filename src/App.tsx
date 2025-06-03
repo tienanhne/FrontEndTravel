@@ -25,6 +25,8 @@ const ChatWidget = lazy(() => import("./components/Chats/ChatWidget"));
 const EditProfile = lazy(() => import("./pages/EditProfile"));
 const PlaceDetail = lazy(() => import("./components/Places/PlaceDetail"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const LoginBlank = lazy(() => import("./pages/LoginBlank"));
+
 function App() {
   
   useEffect(() => {
@@ -58,6 +60,7 @@ function App() {
               <Route path="history-travel" element={<HistoryPage />} />
               <Route path="WriteBlog" element={<WriteBlog />} />
               <Route path="*" element={<NoPage />} />
+              <Route path="login" element={<LoginBlank />} />
             </Route>
             <Route path="/" element={<SimpleLayout />}>
               <Route
